@@ -29,7 +29,7 @@ main() {
         _project="$1"; shift
     fi
 
-    if ! in_array "$_action" _actions[@]
+    if ! in_array "$_action" "${_actions[@]}"
     then
         tellError "$_action is not a valid action."
 

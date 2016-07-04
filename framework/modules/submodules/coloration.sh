@@ -59,10 +59,7 @@ normal="$default$default_b"
 c256=()
 c256_b=()
 
-c256[0]="$normal"
-c256_b[0]="$normal"
-
-for c in `seq 1 256`
+for c in `seq 0 255`
 do
     c256[$c]="\e[38;5;$c"m
     c256_b[$c]="\e[48;5;$c"m

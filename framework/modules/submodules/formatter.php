@@ -19,6 +19,7 @@ class cliColorizer
                                                 'cyan'    => ['set' => 36, 'unset' => 39],
                                                 'white'   => ['set' => 37, 'unset' => 39],
 
+                                                'c_0'     => ['set' => '38;5;0', 'unset' => 39],
                                                 'c_1'     => ['set' => '38;5;1', 'unset' => 39],
                                                 'c_2'     => ['set' => '38;5;2', 'unset' => 39],
                                                 'c_3'     => ['set' => '38;5;3', 'unset' => 39],
@@ -274,7 +275,6 @@ class cliColorizer
                                                 'c_253'   => ['set' => '38;5;253', 'unset' => 39],
                                                 'c_254'   => ['set' => '38;5;254', 'unset' => 39],
                                                 'c_255'   => ['set' => '38;5;255', 'unset' => 39],
-                                                'c_256'   => ['set' => '38;5;256', 'unset' => 39],
                                             ];
 
     protected static $backgroundColors  =   [
@@ -287,6 +287,7 @@ class cliColorizer
                                                 'cyan'    => ['set' => 46, 'unset' => 49],
                                                 'white'   => ['set' => 47, 'unset' => 49],
 
+                                                'c_0'     => ['set' => '48;5;0', 'unset' => 49],
                                                 'c_1'     => ['set' => '48;5;1', 'unset' => 49],
                                                 'c_2'     => ['set' => '48;5;2', 'unset' => 49],
                                                 'c_3'     => ['set' => '48;5;3', 'unset' => 49],
@@ -542,7 +543,6 @@ class cliColorizer
                                                 'c_253'   => ['set' => '48;5;253', 'unset' => 49],
                                                 'c_254'   => ['set' => '48;5;254', 'unset' => 49],
                                                 'c_255'   => ['set' => '48;5;255', 'unset' => 49],
-                                                'c_256'   => ['set' => '48;5;256', 'unset' => 49],
                                             ];
 
     protected static $availableOptions =    [

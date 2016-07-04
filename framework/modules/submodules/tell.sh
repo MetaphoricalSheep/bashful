@@ -119,7 +119,7 @@ tellError() {
     SPACE="$SPACE""    "
 
     MSG="\n<bg=c_196>          </><bg=white>$SPACE</>\n"
-    MSG="$MSG<fg=white;bg=c_196>  ERROR:  </><fg=black;bg=white>  $1  </>\n"
+    MSG="$MSG<fg=white;bg=c_196>  ERROR:  </><fg=c_238;bg=white>  $1  </>\n"
     MSG="$MSG<bg=c_196>          </><bg=white>$SPACE</>\n"
     format_message "$MSG"
 }
