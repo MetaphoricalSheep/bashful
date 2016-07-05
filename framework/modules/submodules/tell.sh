@@ -18,13 +18,12 @@ ERROR="$red"
 TITLE=""
 
 format_message() {
-    if [ -z "$1"  ]; then
-        return 1
-    fi
+    empty "$1" && return 1
 
-    msg="$1"
+    local _msg
+    _msg="$1"; shift
 
-    echo -e $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$msg")
+    empty "$1" && echo -e $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$_msg") || echo -en $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$_msg")
 }
 
 tellFancyTitle() {
@@ -89,14 +88,10 @@ tellTitle() {
 }
 
 tellMessage() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
-
-    format_message "$1"
+    require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
+    local _msg
+    _msg="$1"; shift
+    empty "$1" && format_message "$_msg" || format_message "$_msg" 1
 }
 
 # $1=message    #required
@@ -181,28 +176,28 @@ tellStatus() {
 }
 
 tellLoader() {
-    local pid=$!
+    local _pid
+    local _delay
+    local _spinstr
 
-    if [[ -z "$2" ]]; then
-        local delay=0.1
-    else
-        local delay="$2"
-    fi
+    _pid=$!
+    _delay=0.1
+    _spinstr="|/-\\"
 
-    if [[ -z "$3" ]]; then
-        local spinstr='|/-\'
-    else
-        local spinstr="$3"
-    fi
+    setterm -cursor off
 
-    while kill -0 $pid 2>/dev/null
+    ! empty "$1" && mw_move_cursor_up
+
+    while kill -0 $_pid 2>/dev/null
     do
         i=$(( (i+1) %4 ))
-        printf "\r${spinstr:$i:1}"
-        sleep $delay
+        empty "$1" && printf "\r${_spinstr:$i:1}" || mw_move_cursor_forward "$1"; echo -n "${_spinstr:$i:1}"; printf "\r"
+        sleep $_delay
     done
-
-    echo ""
+    
+    setterm -cursor on
+    
+    empty "$1" && printf "\r"
 }
 
 tellClearFormatting() {
