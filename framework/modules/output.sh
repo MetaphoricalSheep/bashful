@@ -8,3 +8,5 @@ fi
 
 . "$__MONKEYDIR__"/modules/submodules/coloration.sh
 . "$__MONKEYDIR__"/modules/submodules/tell.sh
+. "$__MONKEYDIR__"/modules/submodules/errors.sh
+. "$__MONKEYDIR__"/modules/submodules/cursor.sh
