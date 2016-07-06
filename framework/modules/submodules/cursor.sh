@@ -8,49 +8,67 @@ fi
 
 mw_move_cursor_up() {
     local _line
-    empty "$1" && _line=1 || _line="$1"; shift
+    _line=${1:-1}
     echo -en "\033[$_line"A
+
+    return 0
 }
 
 mw_move_cursor_down() {
     local _line
-    empty "$1" && _line=1 || _line="$1"; shift
+    _line=${1:-1}
     echo -en "\033[$_line"B
+
+    return 0
 }
 
 mw_move_cursor_forward() {
     local _col
-    empty "$1" && _col=1 || _col="$1"; shift
+    _col=${1:-1}
     echo -en "\033[$_col"C
+
+    return 0
 }
 
 mw_move_cursor_backward() {
     local _col
-    empty "$1" && _col=1 || _col="$1"; shift
+    _col=${1:-1}
     echo -en "\033[$_col"D
+
+    return 0
 }
 
 mw_set_cursor_pos() {
     local _line
     local _col
-    empty "$1" && _line=0 || _line="$1"; shift
-    empty "$1" && _col=0 || _col="$1"; shift
+    _line=${1:-1}; shift
+    _col=${1:-1}
     echo -en "\033[$_line;$_col"H
+
+    return 0
 }
 
 # Clears the screen and moves cursor to (0,0)
 mw_clear_screen() {
     echo -en "\033[2J"
+
+    return 0
 }
 
 mw_erase_eol() {
     echo -en "\033[K"
+
+    return 0
 }
 
 mw_save_cursor_pos() {
     echo -en "\033[s"
+
+    return 0
 }
 
 mw_restore_cursor_pos() {
     echo -en "\033[u"
+
+    return 0
 }

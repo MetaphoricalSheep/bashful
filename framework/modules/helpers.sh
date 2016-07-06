@@ -40,7 +40,9 @@ is_file() {
 }
 
 empty() {
-    [ -z "$1" ] && return 0
+    local _var
+    _var=${1:-}
+    [ -z "$_var" ] && return 0
 
     return 1
 }
@@ -67,13 +69,8 @@ is_directory() {
 check_root() {
     if [[ $EUID -ne 0 ]]
     then
-        local _msg="This script requires root access"
-
-        if ! empty "$1"
-        then
-            _msg="$1"; shift
-        fi
-
+        local _msg
+        _msg=${1:-"This script requires root access"}
         tellError "$_msg"
 
         exit 1

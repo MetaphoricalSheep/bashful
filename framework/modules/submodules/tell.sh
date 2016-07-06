@@ -18,12 +18,14 @@ ERROR="$red"
 TITLE=""
 
 format_message() {
-    empty "$1" && return 1
-
     local _msg
-    _msg="$1"; shift
+    local _no_newline
+    
+    _msg=${1:-}; shift
+    _no_newline=${1:-}
 
-    empty "$1" && echo -e $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$_msg") || echo -en $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$_msg")
+    empty "$_msg" && return 1
+    empty "$_no_newline" && echo -e $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$_msg") || echo -en $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$_msg")
 }
 
 tellFancyTitle() {
@@ -31,27 +33,22 @@ tellFancyTitle() {
 
     local _title="  $1              "; shift
     local _title_space=""
-    local _subtitle="  TITLE:  "
-    local _subtitle_space="        "
-    local _format="question"
+    local _subtitle
+    local _subtitle_space
+    local _format
+    
+    _subtitle=${1:-"TITLE:"}; shift
+    _subtitle="  $_subtitle  "
+    _subtitle_space=""
+    _format=${1:-"question"}
 
-    if ! empty "$1"
-    then
-        local _subtitle=" $1 "; shift;
-        _subtitle_space=""
-        for i in `seq 1 ${#_subtitle}`; do
-            _subtitle_space="$_subtitle_space"" "
-        done
-    fi
+    for i in `seq 1 ${#_subtitle}`; do
+        _subtitle_space="$_subtitle_space"" "
+    done
 
     for i in `seq 1 ${#_title}`; do
         _title_space="$_title_space"" "
     done
-
-    if ! empty "$1"
-    then
-        _format="$1"
-    fi
 
     local _final="\n<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
     _final="$_final<$_format>$_subtitle</><bg=white;fg=black>$_title</>\n"
@@ -61,37 +58,34 @@ tellFancyTitle() {
 }
 
 tellTitle() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
+    require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-    MSG="$1"
-    SPACE="  "
+    local _msg
+    local _space
+    local _format
 
-    for i in `seq 1 ${#MSG}`; do
-        SPACE="$SPACE"" "
+    _msg=${1:-}; shift
+    _space="  "
+    _format=${1:"question"}
+
+    for i in `seq 1 ${#_msg}`; do
+        _space="$_space"" "
     done
 
-    SPACE="$SPACE""  "
+    _space="$_space""  "
 
-    if empty "$2"
-    then
-        MSG="\n<question>$SPACE\n  $MSG  \n$SPACE</>\n"
-    else
-        MSG="\n<$2>$SPACE\n  $MSG  \n$SPACE</>\n"
-    fi
+    local _final="\n<$_format>$_space\n  $_msg  \n$_space</>\n"
 
-    format_message "$MSG"
+    format_message "$_final"
 }
 
 tellMessage() {
     require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
     local _msg
+    local _no_newline
     _msg="$1"; shift
-    empty "$1" && format_message "$_msg" || format_message "$_msg" 1
+    _no_newline=${1:-}
+    empty "$_no_newline" && format_message "$_msg" || format_message "$_msg" $_no_newline
 }
 
 # $1=message    #required
@@ -179,25 +173,27 @@ tellLoader() {
     local _pid
     local _delay
     local _spinstr
+    local _inline
 
     _pid=$!
     _delay=0.1
     _spinstr="|/-\\"
+    _inline=${1:-}
 
     setterm -cursor off
-
-    ! empty "$1" && mw_move_cursor_up
+    ! empty "$_inline" && mw_move_cursor_up
 
     while kill -0 $_pid 2>/dev/null
     do
         i=$(( (i+1) %4 ))
-        empty "$1" && printf "\r${_spinstr:$i:1}" || mw_move_cursor_forward "$1"; echo -n "${_spinstr:$i:1}"; printf "\r"
+        empty "$_inline" && printf "\r${_spinstr:$i:1}" || mw_move_cursor_forward "$_inline"; echo -n "${_spinstr:$i:1}"; printf "\r"
         sleep $_delay
     done
     
     setterm -cursor on
-    
-    empty "$1" && printf "\r"
+    empty "$_inline" && printf "\r"
+
+    return 0
 }
 
 tellClearFormatting() {

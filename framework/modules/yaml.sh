@@ -10,10 +10,15 @@ fi
 # Based on https://gist.github.com/pkuczynski/8665367
 
 parse_yaml() {
-    local prefix=$2
+    local _prefix
     local s
     local w
     local fs
+    local _separator
+
+    _separator=${2:-_}
+    _prefix=${3:-}
+
     s='[[:space:]]*'
     w='[a-zA-Z0-9_]*'
     fs="$(echo @|tr @ '\034')"
@@ -24,8 +29,10 @@ parse_yaml() {
         vname[indent] = $2;
         for (i in vname) {if (i > indent) {delete vname[i]}}
             if (length($3) > 0) {
-                vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
-                printf("%s%s%s=(\"%s\")\n", "'"$prefix"'",vn, $2, $3);
+                vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("'"$_separator"'")}
+                printf("%s%s%s=(\"%s\")\n", "'"$_prefix"'",vn, $2, $3);
             }
     }' | sed 's/_=/+=/g'
+
+    return 0
 }
