@@ -68,6 +68,13 @@ new_script() {
     cat << proj >> "$_project_dir/$_project".sh
 #!/usr/bin/env bash
 
+# Your project description here
+
+# Enable unofficial strict mode
+set -euo pipefail
+IFS=$'\n\t'
+
+
 # Including monkey-wrench framework
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
 . "\$__DIR__"/monkey-wrench/monkey-wrench.sh
