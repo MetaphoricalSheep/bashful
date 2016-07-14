@@ -50,7 +50,7 @@ tellFancyTitle() {
         _title_space="$_title_space"" "
     done
 
-    local _final="\n<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
+    local _final="<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
     _final="$_final<$_format>$_subtitle</><bg=white;fg=black>$_title</>\n"
     _final="$_final<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
 
@@ -91,12 +91,7 @@ tellMessage() {
 # $1=message    #required
 # $2=color all  #default=no
 tellError() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
+    require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
     local MSG=$1
     local SPACE=""
@@ -110,7 +105,7 @@ tellError() {
     MSG="\n<bg=c_196>          </><bg=white>$SPACE</>\n"
     MSG="$MSG<fg=white;bg=c_196>  ERROR:  </><fg=c_238;bg=white>  $1  </>\n"
     MSG="$MSG<bg=c_196>          </><bg=white>$SPACE</>\n"
-    format_message "$MSG"
+    >&2 format_message "$MSG"
 }
 
 # $1=message   #required
