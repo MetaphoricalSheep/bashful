@@ -148,5 +148,5 @@ require_parameter_count() {
 unix_timestamp() {
     local _timestamp
     _timestamp=$(date +%s)
-    return  _timestamp
+    return "$_timestamp"
 }
