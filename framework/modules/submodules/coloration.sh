@@ -1,8 +1,9 @@
-# This file contains color and font codes:
-__coloration() {
-    echo "nothing here"
-}
+if [[ -z "$__MONKEYDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source monkey-wrench.sh. \e[39m\n"
+  exit 1
+fi
 
+# This file contains color and font codes:
 colors[0]=black
 colors[1]=red
 colors[2]=green
@@ -59,8 +60,7 @@ normal="$default$default_b"
 c256=()
 c256_b=()
 
-for c in `seq 0 255`
-do
-    c256[$c]="\e[38;5;$c"m
-    c256_b[$c]="\e[48;5;$c"m
+for c in `seq 0 255`; do
+  c256[$c]="\e[38;5;$c"m
+  c256_b[$c]="\e[48;5;$c"m
 done
