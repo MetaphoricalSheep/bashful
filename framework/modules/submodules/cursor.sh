@@ -41,8 +41,8 @@ mw_move_cursor_backward() {
 mw_set_cursor_pos() {
     local _line
     local _col
-    _line=${1:-1}; shift
-    _col=${1:-1}
+    _line=${1:-0}
+    _col=${2:-0}
     echo -en "\033[$_line;$_col"H
 
     return 0
