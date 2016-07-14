@@ -7,6 +7,8 @@ then
 fi
 
 mw_show_errors() {
+    __MW_ERRORS__=${__MW_ERRORS__:-}
+
     if ! empty $__MW_ERRORS__
     then
         local _e
@@ -15,7 +17,7 @@ mw_show_errors() {
         for _e in "${__MW_ERRORS__[@]}"
         do
             #tellError "$_e"
-            tellMessage "  - $_e"
+            >&2 tellMessage "  - $_e"
         done
     fi
 }
