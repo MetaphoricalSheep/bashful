@@ -78,7 +78,7 @@ IFS=$'\n\t'
 
 # Including unabashed framework
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
-. "\$__DIR__"/unabashed/unabashed.sh
+. "\$__DIR__"/.unabashed/unabashed.sh
 
 
 __PROJECT__=$_project
@@ -148,11 +148,11 @@ install() {
   tellMessage "<info>Project Dir</> : <comment>$_project_dir</>"
   tellMessage "<info>Installing unabashed files...</>"
 
-  if directory_exists "$_project_dir"/unabashed; then
-    rm -r "$_project_dir"/unabashed
+  if directory_exists "$_project_dir"/.unabashed; then
+    rm -r "$_project_dir"/.unabashed
   fi
 
-  cp "$__UNABASHEDDIR__" "$_project_dir"/unabashed -R
+  cp "$__UNABASHEDDIR__" "$_project_dir"/.unabashed -R
 }
 
 update() {
@@ -166,7 +166,7 @@ update() {
   fi
 
   if unabashed__helpers__empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is unabashed__helpers__empty. Nothing to update."
+    tellError "The project directory $_project_dir is empty. Nothing to update."
     exit 1
   fi
 
@@ -185,7 +185,7 @@ new() {
   fi
 
   if ! unabashed__helpers__empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is not unabashed__helpers__empty."
+    tellError "The project directory $_project_dir is not empty."
     exit 1
   fi
 
