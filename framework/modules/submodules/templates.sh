@@ -1,10 +1,10 @@
-if [[ -z "$__BASHFULDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+if [[ -z "$__UNABASHEDDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source unabashed.sh. \e[39m\n"
   exit 1
 fi
     
 
-bashful::templates::__internal_format_data() {
+unabashed::templates::__internal_format_data() {
   require_parameter_count "$FUNCNAME" "$LINENO" 2 "$#"
 
   local _value
@@ -40,7 +40,7 @@ bashful::templates::__internal_format_data() {
 }
 
 
-bashful::templates::parse_template() {
+unabashed::templates::parse_template() {
   require_parameter_count "$FUNCNAME" "$LINENO" 2 "$#"
 
   local _template
@@ -60,7 +60,7 @@ bashful::templates::parse_template() {
   if ! is_file "$_template"; then
     local _scriptname
     _scriptname=$(basename "${BASH_SOURCE[0]}")
-    __BF_ERRORS__+=("($_scriptname::$LINENO) <comment>$_template</> is not a file.")
+    __UA_ERRORS__+=("($_scriptname::$LINENO) <comment>$_template</> is not a file.")
     print_fail
     return 1
   fi
@@ -92,7 +92,7 @@ bashful::templates::parse_template() {
 
     if [[ "${#_segments}" > 1 ]]; then
       for _action in "${_segments[@]:1}"; do
-        _value=$(bashful::templates::__internal_format_data "$_value" "$_action")
+        _value=$(unabashed::templates::__internal_format_data "$_value" "$_action")
       done
     fi
 
