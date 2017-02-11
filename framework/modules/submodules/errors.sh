@@ -7,7 +7,7 @@ fi
 bf_show_errors() {
   __BF_ERRORS__=${__BF_ERRORS__:-}
 
-  if ! empty $__BF_ERRORS__; then
+  if ! bashful__helpers__empty $__BF_ERRORS__; then
     local _e
     tellError  "Script execution errors" "ERRORS:"
 

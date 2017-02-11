@@ -17,8 +17,8 @@ bashful::email.__internal_validate_params() {
   _lineno="$1"; shift
   _scriptname=$(basename "${BASH_SOURCE[0]}")
         
-  if empty "$_field"; then
-    __BF_ERRORS__+=("($_scriptname::$_lineno) <comment>Email</> $_field cannot be empty")
+  if bashful__helpers__empty "$_field"; then
+    __BF_ERRORS__+=("($_scriptname::$_lineno) <comment>Email</> $_field cannot be bashful__helpers__empty")
     print_fail
     return 1
   fi

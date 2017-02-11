@@ -77,21 +77,21 @@
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------------------------helpers.empty----------------------------------------------------------------------
-@test "check that \`empty\` returns 1" {
-  run empty
+#------------------------------------------------helpers.bashful__helpers__empty----------------------------------------------------------------------
+@test "check that \`bashful__helpers__empty\` returns 1" {
+  run bashful__helpers__empty
   [ $status = 0 ]
 }
 
 
-@test "check that \`empty 5\` returns 1" {
-  run empty 5
+@test "check that \`bashful__helpers__empty 5\` returns 1" {
+  run bashful__helpers__empty 5
   [ $status = 1 ]
 }
 
 
-@test "check that \`empty \"\"\` returns 0" {
-  run empty ""
+@test "check that \`bashful__helpers__empty \"\"\` returns 0" {
+  run bashful__helpers__empty ""
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
@@ -189,32 +189,32 @@
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------------------------helpers.empty_dir----------------------------------------------------------------------
-@test "check that \`empty_dir\` returns 1" {
-  run empty_dir
+#------------------------------------------------helpers.bashful__helpers__empty_dir----------------------------------------------------------------------
+@test "check that \`bashful__helpers__empty_dir\` returns 1" {
+  run bashful__helpers__empty_dir
   [ $status = 1 ]
 }
 
 
-@test "check that \`empty_dir thereisnodirectorylikethishere\` returns 1" {
-  run empty_dir thereisnodirectorylikethishere
+@test "check that \`bashful__helpers__empty_dir thereisnodirectorylikethishere\` returns 1" {
+  run bashful__helpers__empty_dir thereisnodirectorylikethishere
   [ $status = 1 ]
 }
 
 
-@test "check that \`empty_dir /usr/local/bin\` returns 1" {
-  run empty_dir /usr/local/bin
+@test "check that \`bashful__helpers__empty_dir /usr/local/bin\` returns 1" {
+  run bashful__helpers__empty_dir /usr/local/bin
   [ $status = 1 ]
 }
 
 
-@test "check that \`empty_dir /tmp/arandomdirnamethatshouldnotexist\` returns 0" {
+@test "check that \`bashful__helpers__empty_dir /tmp/arandomdirnamethatshouldnotexist\` returns 0" {
   local _file
   _file=/tmp/arandomdirnamethatshouldnotexist
   mkdir "$_file"
-  run empty_dir "$_file"
+  run bashful__helpers__empty_dir "$_file"
   rm -rf "$_file"
   [ $status = 0 ]
 }
-#------------------------------------------------helpers.empty_dir----------------------------------------------------------------------
+#------------------------------------------------helpers.bashful__helpers__empty_dir----------------------------------------------------------------------
 

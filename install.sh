@@ -24,7 +24,7 @@ usage() {
 }
 
 
-tellFancyTitle "A cool bashful slogan will one day come appear here" "INSTALL bashful" "fg=white;bg=c_55"
+tellFancyTitle "A cool bashful slogan will one day appear here" "INSTALL bashful" "fg=white;bg=c_55"
 params="$(getopt -o sh -l silent,help --name "$(basename "$0")" -- "$@")"
 
 if [ $? != 0 ]; then

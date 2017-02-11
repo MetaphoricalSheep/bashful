@@ -16,7 +16,7 @@ usage() {
 main() {
   tellFancyTitle "Manage your bashful projects." "bashful:" "fg=white;bg=c_208"
 
-  if empty "$1" || empty "$2"; then
+  if bashful__helpers__empty "$1" || bashful__helpers__empty "$2"; then
     usage
   fi
 
@@ -25,7 +25,7 @@ main() {
   local _project_dir="$1"; shift
   local _actions=("new" "update")
 
-  if ! empty "$1"; then
+  if ! bashful__helpers__empty "$1"; then
     _project="$1"; shift
   fi
 
@@ -93,6 +93,32 @@ usage() {
 }
 
 
+eval set -- "$params"
+unset params
+
+SILENT=false
+
+while true; do
+  case "$1" in
+    -s|--silent)
+      SILENT=true
+      shift
+      break;;
+    -h|--help)
+      usage
+      shift
+      break;;
+    --)
+      shift
+      break;;
+    *)
+      usage
+      break;;
+  esac
+  shift
+done
+
+
 main() {
   tellFancyTitle "A new bashful project." "\$__PROJECT__" "fg=white;bg=c_22"
 }
@@ -132,8 +158,8 @@ update() {
     exit 1
   fi
 
-  if empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is empty. Nothing to update."
+  if bashful__helpers__empty_dir "$_project_dir"; then
+    tellError "The project directory $_project_dir is bashful__helpers__empty. Nothing to update."
     exit 1
   fi
 
@@ -151,8 +177,8 @@ new() {
     mkdir -p "$_project_dir"
   fi
 
-  if ! empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is not empty."
+  if ! bashful__helpers__empty_dir "$_project_dir"; then
+    tellError "The project directory $_project_dir is not bashful__helpers__empty."
     exit 1
   fi
 
