@@ -1,8 +1,7 @@
 # output formatter
-if [[ -z "$__MONKEYDIR__" ]]
-then
-    echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source monkey-wrench.sh. \e[39m\n"
-    exit 1
+if [[ -z "$__BASHFULDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+  exit 1
 fi
 
 col=$(tput cols)
@@ -17,194 +16,186 @@ QUESTION="$cyan"
 ERROR="$red"
 TITLE=""
 
+
 format_message() {
-    if [ -z "$1"  ]; then
-        return 1
-    fi
+  local _msg
+  local _no_newline
+    
+  _msg=${1:-}; shift
+  _no_newline=${1:-}
 
-    msg="$1"
-
-    echo -e $(php "$__MONKEYDIR__"/modules/submodules/formatter.php "$msg")
+  empty "$_msg" && return 1
+  empty "$_no_newline" && echo -e $(php "$__BASHFULDIR__"/modules/submodules/formatter.php "$_msg") || echo -en $(php "$__BASHFULDIR__"/modules/submodules/formatter.php "$_msg")
 }
+
 
 tellFancyTitle() {
-    require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
+  require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-    local _title="  $1              "; shift
-    local _title_space=""
-    local _subtitle="  TITLE:  "
-    local _subtitle_space="        "
-    local _format="question"
+  local _title="  $1              "; shift
+  local _title_space=""
+  local _subtitle
+  local _subtitle_space
+  local _format
+    
+  _subtitle=${1:-"TITLE:"}; shift
+  _subtitle="  $_subtitle  "
+  _subtitle_space=""
+  _format=${1:-"question"}
 
-    if ! empty "$1"
-    then
-        local _subtitle=" $1 "; shift;
-        _subtitle_space=""
-        for i in `seq 1 ${#_subtitle}`; do
-            _subtitle_space="$_subtitle_space"" "
-        done
-    fi
+  for i in `seq 1 ${#_subtitle}`; do
+    _subtitle_space="$_subtitle_space"" "
+  done
 
-    for i in `seq 1 ${#_title}`; do
-        _title_space="$_title_space"" "
-    done
+  for i in `seq 1 ${#_title}`; do
+    _title_space="$_title_space"" "
+  done
 
-    if ! empty "$1"
-    then
-        _format="$1"
-    fi
+  local _final="<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
+  _final="$_final<$_format>$_subtitle</><bg=white;fg=black>$_title</>\n"
+  _final="$_final<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
 
-    local _final="\n<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
-    _final="$_final<$_format>$_subtitle</><bg=white;fg=black>$_title</>\n"
-    _final="$_final<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
-
-    format_message "$_final"
+  format_message "$_final"
 }
+
 
 tellTitle() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
+  require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-    MSG="$1"
-    SPACE="  "
+  local _msg
+  local _space
+  local _format
 
-    for i in `seq 1 ${#MSG}`; do
-        SPACE="$SPACE"" "
-    done
+  _msg=${1:-}; shift
+  _space="  "
+  _format=${1:"question"}
 
-    SPACE="$SPACE""  "
+  for i in `seq 1 ${#_msg}`; do
+    _space="$_space"" "
+  done
 
-    if empty "$2"
-    then
-        MSG="\n<question>$SPACE\n  $MSG  \n$SPACE</>\n"
-    else
-        MSG="\n<$2>$SPACE\n  $MSG  \n$SPACE</>\n"
-    fi
+  _space="$_space""  "
 
-    format_message "$MSG"
+  local _final="\n<$_format>$_space\n  $_msg  \n$_space</>\n"
+
+  format_message "$_final"
 }
+
 
 tellMessage() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
-
-    format_message "$1"
+  local _msg
+  local _no_newline
+  _msg=${1:- }
+  _no_newline=${2:-}
+  empty "$_no_newline" && format_message "$_msg" || format_message "$_msg" $_no_newline
 }
+
 
 # $1=message    #required
 # $2=color all  #default=no
 tellError() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
+  require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-    local MSG=$1
-    local SPACE=""
+  local MSG=$1
+  local SPACE=""
 
-    for i in `seq 1 ${#MSG}`; do
-        SPACE="$SPACE"" "
-    done
+  for i in `seq 1 ${#MSG}`; do
+    SPACE="$SPACE"" "
+  done
 
-    SPACE="$SPACE""    "
+  SPACE="$SPACE""    "
 
-    MSG="\n<bg=c_196>          </><bg=white>$SPACE</>\n"
-    MSG="$MSG<fg=white;bg=c_196>  ERROR:  </><fg=black;bg=white>  $1  </>\n"
-    MSG="$MSG<bg=c_196>          </><bg=white>$SPACE</>\n"
-    format_message "$MSG"
+  MSG="\n<bg=c_196>          </><bg=white>$SPACE</>\n"
+  MSG="$MSG<fg=white;bg=c_196>  ERROR:  </><fg=c_238;bg=white>  $1  </>\n"
+  MSG="$MSG<bg=c_196>          </><bg=white>$SPACE</>\n"
+  >&2 format_message "$MSG"
 }
+
 
 # $1=message   #required
 # $2=status    #default=SUCCESS
 # $3=statusmessage #default based on status
 # $4=behaviour #default=echo
 tellStatus() {
-    if [ -z "$1" ]; then
-        tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
-        printf "   Line: "
-        caller
-        exit $?
-    fi
+  if [ -z "$1" ]; then
+    tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
+    printf "   Line: "
+    caller
+    exit $?
+  fi
 
-    STATUS="$INFO"
-    STATUSMSG="[INFO]"
+  STATUS="$INFO"
+  STATUSMSG="[INFO]"
 
-    if [ ! -z "$2" ]; then
-        case "$2" in
-            0)  STATUS="$INFO"
-                STATUSMSG="[INFO]"
-                ;;
-            1)  STATUS="$SUCCESS"
-                STATUSMSG="[OK]"
-                ;;
-            2)  STATUS="$WARNING"
-                STATUSMSG="[WARNING]"
-                ;;
-            3)  STATUS="$DANGER"
-                STATUSMSG="[FAIL]"
-                ;;
-            *)  STATUS="$INFO"
-                STATUSMSG="[INFO]"
-                ;;
-        esac
-    fi
+  if [ ! -z "$2" ]; then
+    case "$2" in
+      0)  STATUS="$INFO"
+        STATUSMSG="[INFO]"
+        ;;
+      1)  STATUS="$SUCCESS"
+        STATUSMSG="[OK]"
+        ;;
+      2)  STATUS="$WARNING"
+        STATUSMSG="[WARNING]"
+        ;;
+      3)  STATUS="$DANGER"
+        STATUSMSG="[FAIL]"
+        ;;
+      *)  STATUS="$INFO"
+        STATUSMSG="[INFO]"
+        ;;
+    esac
+  fi
 
-    if [ ! -z "$3" ]; then
-        STATUSMSG="$3"
-    fi
+  if [ ! -z "$3" ]; then
+    STATUSMSG="$3"
+  fi
 
-    BEHAVIOUR=0
-    if [ ! -z "$3" ]; then
-        BEHAVIOUR="$3"
-    fi
+  BEHAVIOUR=0
+  if [ ! -z "$3" ]; then
+    BEHAVIOUR="$3"
+  fi
 
-    if [ "$BEHAVIOUR" == 0 ] || [ "$BEHAVIOUR" == 1 ] || [ "$BEHAVIOUR" > 2 ]; then
-        tput sc
-        printf '%s%*s%s' $STATUS $col "$STATUSMSG" $normal
-        tput rc
-        printf "$1\n";
-    fi
+  if [ "$BEHAVIOUR" == 0 ] || [ "$BEHAVIOUR" == 1 ] || [ "$BEHAVIOUR" > 2 ]; then
+    tput sc
+    printf '%s%*s%s' $STATUS $col "$STATUSMSG" $normal
+    tput rc
+    printf "$1\n";
+  fi
 
-    if [ "$BEHAVIOUR" == 1 ] || [ "$BEHAVIOUR" == 2 ]; then
-        echo logging
-    fi
+  if [ "$BEHAVIOUR" == 1 ] || [ "$BEHAVIOUR" == 2 ]; then
+    echo logging
+  fi
 }
+
 
 tellLoader() {
-    local pid=$!
+  local _pid
+  local _delay
+  local _spinstr
+  local _inline
 
-    if [[ -z "$2" ]]; then
-        local delay=0.1
-    else
-        local delay="$2"
-    fi
+  _pid=$!
+  _delay=0.1
+  _spinstr="|/-\\"
+  _inline=${1:-}
 
-    if [[ -z "$3" ]]; then
-        local spinstr='|/-\'
-    else
-        local spinstr="$3"
-    fi
+  setterm -cursor off
+  ! empty "$_inline" && bf_move_cursor_up
 
-    while kill -0 $pid 2>/dev/null
-    do
-        i=$(( (i+1) %4 ))
-        printf "\r${spinstr:$i:1}"
-        sleep $delay
-    done
+  while kill -0 $_pid 2>/dev/null; do
+    i=$(( (i+1) %4 ))
+    empty "$_inline" && printf "\r${_spinstr:$i:1}" || bf_move_cursor_forward "$_inline"; echo -n "${_spinstr:$i:1}"; printf "\r"
+    sleep $_delay
+  done
+    
+  setterm -cursor on
+  empty "$_inline" && printf "\r"
 
-    echo ""
+  return 0
 }
 
+
 tellClearFormatting() {
-    tellMessage "$normal"
+  tellMessage "$normal"
 }

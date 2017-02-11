@@ -1,33 +1,37 @@
+if [[ -z "$__BASHFULDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+  exit 1
+fi
+
 #
-# Inserts given DATA at specific line of file
+# Appends file n lines from bottom of file
 # 
 append_file() {
-    DATA=""
-    LINE=1
-    TEMP=/tmp/$(date +%s)
+  require_parameter_count "$FUNCNAME" "$LINENO" 2 "$#"
 
-    if empty "$1"
-    then
-        tellError "You must specify a file to append."
+  local _data
+  local _line
+  local _tmpfile
+  local _file
 
-        exit 1
-    fi
+  _line=1
+  _tmpfile=/tmp/$(date +%s)
 
-    FILE="$1"
+  _file="$1"; shift
+  _data="$1"; shift
 
-    if ! empty "$2"
-    then
-        DATA="$2"
-    fi
+  if ! empty "$1" && is_number "$1"; then
+    _line="$1"; shift
+  fi
 
-    if (! empty -z "$3") && (is_number "$3")
-    then
-        LINE="$3"
-    fi
+  if ! file_exists "$_file"; then
+    tellError "$_file does not exist."
+    exit 1
+  fi
 
-    head --lines=-"$LINE" "$FILE" > "$TEMP"
-    echo "$DATA" >> "$TEMP"
-    tail --lines="$LINE" "$FILE" >> "$TEMP"
+  head --lines=-"$_line" "$_file" > "$_tmpfile"
+  echo "$_data" >> "$_tmpfile"
+  tail --lines="$_line" "$_file" >> "$_tmpfile"
 
-    mv "$TEMP" "$FILE"
+  mv "$_tmpfile" "$_file"
 }

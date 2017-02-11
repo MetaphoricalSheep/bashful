@@ -3,4 +3,4 @@ if [[ -z "$__BASHFULDIR__" ]]; then
   exit 1
 fi
 
-. "$__BASHFULDIR__"/modules/submodules/append-file.sh
+. "$__BASHFULDIR__"/modules/submodules/templates.sh
