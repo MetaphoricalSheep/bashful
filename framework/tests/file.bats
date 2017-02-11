@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-. "$BATS_TEST_DIRNAME"/../monkey-wrench.sh
+. "$BATS_TEST_DIRNAME"/../bashful.sh
 
 #------------------------------------------------helpers.is_number------------------------------------------------------------------
 

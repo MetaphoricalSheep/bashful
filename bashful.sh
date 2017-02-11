@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 
-__MONKEYDIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-. "$__MONKEYDIR__"/framework/monkey-wrench.sh
+__BASHFULDIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
+. "$__BASHFULDIR__"/framework/bashful.sh
 
 
 usage() {
   tellMessage "<info>Usage</>"
-  tellMessage "<comment>monkey-wrench [action] [project-dir]</comment>"
-  tellMessage "Creates a new monkey-wrench project at the specified directory."
+  tellMessage "<comment>bashful [action] [project-dir]</>"
+  tellMessage "Creates a new bashful project at the specified directory."
 
   exit 1
 }
 
 
 main() {
-  tellFancyTitle "Manage your monkey-wrench projects." "monkey-wrench:" "fg=white;bg=c_208"
+  tellFancyTitle "Manage your bashful projects." "bashful:" "fg=white;bg=c_208"
 
   if empty "$1" || empty "$2"; then
     usage
@@ -44,18 +44,18 @@ update_script() {
   local _project_dir="$1"; shift
   local _project="$1"; shift
     
-  tellMessage "<info>Creating monkey-wrench update helper script...</>"
+  tellMessage "<info>Creating bashful update helper script...</>"
 
-  cat << proj > "$_project_dir/update-monkey-wrench"
+  cat << proj > "$_project_dir/update-bashful"
 #!/usr/bin/env bash
 
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
 
-monkey-wrench update  "\$__DIR__" "$_project"
+bashful update  "\$__DIR__" "$_project"
 proj
     
   tellMessage "<info>Making update helper executable...</>"
-  chmod +x "$_project_dir/update-monkey-wrench"
+  chmod +x "$_project_dir/update-bashful"
 }
 
 
@@ -76,13 +76,25 @@ set -euo pipefail
 IFS=$'\n\t'
 
 
-# Including monkey-wrench framework
+# Including bashful framework
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
-. "\$__DIR__"/monkey-wrench/monkey-wrench.sh
+. "\$__DIR__"/bashful/bashful.sh
+
+
+__PROJECT__=$_project
+
+
+usage() {
+  tellMessage "<info>Usage</>"
+  tellMessage "<comment>\$__PROJECT__ <param> [param]"
+  tellMessage "Your usage instrunctions should come here."
+
+  exit 1
+}
 
 
 main() {
-  tellFancyTitle "A new monkey-wrench project." "$_project" "fg=white;bg=c_22"
+  tellFancyTitle "A new bashful project." "\$__PROJECT__" "fg=white;bg=c_22"
 }
 
 
@@ -101,13 +113,13 @@ install() {
 
   tellMessage "<info>Project Name</>: <comment>$_project</>"
   tellMessage "<info>Project Dir</> : <comment>$_project_dir</>"
-  tellMessage "<info>Installing monkey wrench files...</>"
+  tellMessage "<info>Installing bashful files...</>"
 
-  if directory_exists "$_project_dir"/monkey-wrench; then
-    rm -r "$_project_dir"/monkey-wrench
+  if directory_exists "$_project_dir"/bashful; then
+    rm -r "$_project_dir"/bashful
   fi
 
-  cp "$__MONKEYDIR__" "$_project_dir"/monkey-wrench -R
+  cp "$__BASHFULDIR__" "$_project_dir"/bashful -R
 }
 
 update() {

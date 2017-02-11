@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-. "$BATS_TEST_DIRNAME"/../monkey-wrench.sh
+. "$BATS_TEST_DIRNAME"/../bashful.sh
 
 #------------------------------------------------helpers.is_number------------------------------------------------------------------
 
@@ -71,8 +71,8 @@
 }
 
 
-@test "check that \`file_exists /usr/local/bin/monkey-wrench\` returns 0" {
-  run is_file /usr/local/bin/monkey-wrench
+@test "check that \`file_exists /usr/local/bin/bashful\` returns 0" {
+  run is_file /usr/local/bin/bashful
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------

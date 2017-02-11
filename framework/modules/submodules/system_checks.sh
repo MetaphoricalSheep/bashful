@@ -1,5 +1,5 @@
-if [[ -z "$__MONKEYDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source monkey-wrench.sh. \e[39m\n"
+if [[ -z "$__BASHFULDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
   exit 1
 fi
 
@@ -7,11 +7,11 @@ fi
 #
 # Checks if the OS Version is in a given array
 # 
-monkey_os_version_check() {
+bashful_os_version_check() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-  if (! in_array "$__MW_OS_VERSION__" ${@:1}); then
-    tellError "$__MW_OS_NAME__ is not currently supported by this install script."
+  if (! in_array "$__BF_OS_VERSION__" ${@:1}); then
+    tellError "$__BF_OS_NAME__ is not currently supported by this install script."
 
     exit 1
   fi

@@ -1,10 +1,10 @@
-if [[ -z "$__MONKEYDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source monkey-wrench.sh. \e[39m\n"
+if [[ -z "$__BASHFULDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
   exit 1
 fi
     
 
-mw::templates::__internal_format_data() {
+bashful::templates::__internal_format_data() {
   require_parameter_count "$FUNCNAME" "$LINENO" 2 "$#"
 
   local _value
@@ -40,7 +40,7 @@ mw::templates::__internal_format_data() {
 }
 
 
-mw::templates::parse_template() {
+bashful::templates::parse_template() {
   require_parameter_count "$FUNCNAME" "$LINENO" 2 "$#"
 
   local _template
@@ -60,7 +60,7 @@ mw::templates::parse_template() {
   if ! is_file "$_template"; then
     local _scriptname
     _scriptname=$(basename "${BASH_SOURCE[0]}")
-    __MW_ERRORS__+=("($_scriptname::$LINENO) <comment>$_template</> is not a file.")
+    __BF_ERRORS__+=("($_scriptname::$LINENO) <comment>$_template</> is not a file.")
     print_fail
     return 1
   fi
@@ -92,7 +92,7 @@ mw::templates::parse_template() {
 
     if [[ "${#_segments}" > 1 ]]; then
       for _action in "${_segments[@]:1}"; do
-        _value=$(mw::templates::__internal_format_data "$_value" "$_action")
+        _value=$(bashful::templates::__internal_format_data "$_value" "$_action")
       done
     fi
 
