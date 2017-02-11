@@ -16,7 +16,7 @@ usage() {
 main() {
   tellFancyTitle "Manage your unabashed projects." "unabashed:" "fg=white;bg=c_208"
 
-  if unabashed__helpers__empty "$1" || unabashed__helpers__empty "$2"; then
+  if helpers__empty "$1" || helpers__empty "$2"; then
     usage
   fi
 
@@ -25,11 +25,11 @@ main() {
   local _project_dir="$1"; shift
   local _actions=("new" "update")
 
-  if ! unabashed__helpers__empty "$1"; then
+  if ! helpers__empty "$1"; then
     _project="$1"; shift
   fi
 
-  if ! in_array "$_action" "${_actions[@]}"; then
+  if ! helpers__in_array "$_action" "${_actions[@]}"; then
     tellError "$_action is not a valid action."
 
     exit 1
@@ -96,18 +96,18 @@ tellFancyTitle "A new unabashed project." "\$__PROJECT__" "fg=white;bg=c_22"
 
 params="\$(getopt -o sh -l silent,help --name "\$(basename "\$0")" -- "\$@")"
 
-if [ $? != 0 ]; then
+if [ \$? != 0 ]; then
     usage
 fi
 
 
-eval set -- "$params"
+eval set -- "\$params"
 unset params
 
 SILENT=false
 
 while true; do
-  case "$1" in
+  case "\$1" in
     -s|--silent)
       SILENT=true
       shift
@@ -151,6 +151,13 @@ install() {
   if directory_exists "$_project_dir"/.unabashed; then
     rm -r "$_project_dir"/.unabashed
   fi
+  
+  if directory_exists "$_project_dir"/.unabashed/config; then
+    rsync -azq --ignore-existing "$__UNABASHEDDIR__"/../config "$_project_dir"/config 
+    rsync -azq "$__UNABASHEDDIR__"/../config/*.default.*.yml "$_project_dir"/config/
+  else
+    cp "$__UNABASHEDDIR__"/../config "$_project_dir"/config -R
+  fi
 
   cp "$__UNABASHEDDIR__" "$_project_dir"/.unabashed -R
 }
@@ -165,7 +172,7 @@ update() {
     exit 1
   fi
 
-  if unabashed__helpers__empty_dir "$_project_dir"; then
+  if helpers__empty_dir "$_project_dir"; then
     tellError "The project directory $_project_dir is empty. Nothing to update."
     exit 1
   fi
@@ -184,7 +191,7 @@ new() {
     mkdir -p "$_project_dir"
   fi
 
-  if ! unabashed__helpers__empty_dir "$_project_dir"; then
+  if ! helpers__empty_dir "$_project_dir"; then
     tellError "The project directory $_project_dir is not empty."
     exit 1
   fi

@@ -77,21 +77,21 @@
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------------------------helpers.unabashed__helpers__empty----------------------------------------------------------------------
-@test "check that \`unabashed__helpers__empty\` returns 1" {
-  run unabashed__helpers__empty
+#------------------------------------------------helpers.helpers__empty----------------------------------------------------------------------
+@test "check that \`helpers__empty\` returns 1" {
+  run helpers__empty
   [ $status = 0 ]
 }
 
 
-@test "check that \`unabashed__helpers__empty 5\` returns 1" {
-  run unabashed__helpers__empty 5
+@test "check that \`helpers__empty 5\` returns 1" {
+  run helpers__empty 5
   [ $status = 1 ]
 }
 
 
-@test "check that \`unabashed__helpers__empty \"\"\` returns 0" {
-  run unabashed__helpers__empty ""
+@test "check that \`helpers__empty \"\"\` returns 0" {
+  run helpers__empty ""
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
@@ -131,19 +131,19 @@
 
 #------------------------------------------------helpers.in_array----------------------------------------------------------------------
 @test "check that \`in_array\` returns 1" {
-  run in_array
+  run helpers__in_array
   [ $status = 1 ]
 }
 
 
 @test "check that \`in_array needle\` returns 1" {
-  run in_array needle
+  run helpers__in_array needle
   [ $status = 1 ]
 }
 
 
 @test "check that \`in_array one two\` returns 1" {
-  run in_array one two
+  run helpers__in_array one two
   [ $status = 1 ]
 }
 
@@ -151,21 +151,21 @@
 @test "check that \`in_array needle (a, b, 34)\` returns 1" {
   local _array
   _array=(a, b, 34)
-  run in_array needle "${_array[@]}"
+  run helpers__in_array needle "${_array[@]}"
   [ $status = 1 ]
 }
 
 
 @test "check that \`in_array needle (a, b, 34, needle)\` returns 0" {
   _array=(a, b, 34, "needle")
-  run in_array "needle" "${_array[@]}"
+  run helpers__in_array "needle" "${_array[@]}"
   [ $status = 0 ]
 }
 
 
 @test "check that \`in_array one (a, b, 34, needle)\` returns 1" {
   _array=(a, b, 34, "needle")
-  run in_array "one" "${_array[@]}"
+  run helpers__in_array "one" "${_array[@]}"
   [ $status = 1 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
@@ -189,32 +189,32 @@
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------------------------helpers.unabashed__helpers__empty_dir----------------------------------------------------------------------
-@test "check that \`unabashed__helpers__empty_dir\` returns 1" {
-  run unabashed__helpers__empty_dir
+#------------------------------------------------helpers.helpers__empty_dir----------------------------------------------------------------------
+@test "check that \`helpers__empty_dir\` returns 1" {
+  run helpers__empty_dir
   [ $status = 1 ]
 }
 
 
-@test "check that \`unabashed__helpers__empty_dir thereisnodirectorylikethishere\` returns 1" {
-  run unabashed__helpers__empty_dir thereisnodirectorylikethishere
+@test "check that \`helpers__empty_dir thereisnodirectorylikethishere\` returns 1" {
+  run helpers__empty_dir thereisnodirectorylikethishere
   [ $status = 1 ]
 }
 
 
-@test "check that \`unabashed__helpers__empty_dir /usr/local/bin\` returns 1" {
-  run unabashed__helpers__empty_dir /usr/local/bin
+@test "check that \`helpers__empty_dir /usr/local/bin\` returns 1" {
+  run helpers__empty_dir /usr/local/bin
   [ $status = 1 ]
 }
 
 
-@test "check that \`unabashed__helpers__empty_dir /tmp/arandomdirnamethatshouldnotexist\` returns 0" {
+@test "check that \`helpers__empty_dir /tmp/arandomdirnamethatshouldnotexist\` returns 0" {
   local _file
   _file=/tmp/arandomdirnamethatshouldnotexist
   mkdir "$_file"
-  run unabashed__helpers__empty_dir "$_file"
+  run helpers__empty_dir "$_file"
   rm -rf "$_file"
   [ $status = 0 ]
 }
-#------------------------------------------------helpers.unabashed__helpers__empty_dir----------------------------------------------------------------------
+#------------------------------------------------helpers.helpers__empty_dir----------------------------------------------------------------------
 

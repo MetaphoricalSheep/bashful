@@ -10,7 +10,7 @@ fi
 unabashed_os_version_check() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-  if (! in_array "$__UA_OS_VERSION__" ${@:1}); then
+  if (! helpers__in_array "$__UA_OS_VERSION__" ${@:1}); then
     tellError "$__UA_OS_NAME__ is not currently supported by this install script."
 
     exit 1

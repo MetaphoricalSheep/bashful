@@ -5,7 +5,7 @@ fi
 
 
 is_number() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   local _num="$1"; shift
   local _re='^[0-9]+$'
   ! [[ $_num =~ $_re ]] && return 1
@@ -17,7 +17,7 @@ is_number() {
 is_array() {
   # Call by using is_array array_name;
   # NOT is_array $array_name
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   declare -p ${1} 2> /dev/null | grep 'declare \-a' >/dev/null && return 0
 
   return 1
@@ -25,7 +25,7 @@ is_array() {
 
 
 file_exists() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   local _file="$1"; shift
   [ -f "$_file" ] && return 0
 
@@ -39,7 +39,7 @@ is_file() {
 }
 
 
-unabashed__helpers__empty() {
+helpers__empty() {
   local _var
   _var=${1:-}
   [ -z "$_var" ] && return 0
@@ -49,7 +49,7 @@ unabashed__helpers__empty() {
 
 
 dir_exists() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   [ -d "$1" ] && return 0
 
   return 1
@@ -82,9 +82,9 @@ check_root() {
 }
 
 
-in_array() {
-  unabashed__helpers__empty "$1" && return 1
-  unabashed__helpers__empty "$2" && return 1
+helpers__in_array() {
+  helpers__empty "$1" && return 1
+  helpers__empty "$2" && return 1
     
   local _needle
   _needle="$1"
@@ -99,10 +99,10 @@ in_array() {
 
 
 function_exists() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   local _function="$1"; shift
 
-  if ! unabashed__helpers__empty $(type -t "$_function"); then
+  if ! helpers__empty $(type -t "$_function"); then
     return 0
   fi
 
@@ -110,13 +110,13 @@ function_exists() {
 }
 
 
-unabashed__helpers__empty_dir() {
+helpers__empty_dir() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
   local _dir="$1"; shift
 
   if ! is_directory "$_dir"; then
-    tellError "unabashed__helpers__empty_dir requires a directory as parameter."
+    tellError "helpers__empty_dir requires a directory as parameter."
     printf "   Line: "
     caller
     exit 1 
@@ -128,7 +128,7 @@ unabashed__helpers__empty_dir() {
 
 
 require_parameter_count() {
-  if unabashed__helpers__empty "$1" || unabashed__helpers__empty "$2" || unabashed__helpers__empty "$3" || unabashed__helpers__empty "$4"; then
+  if helpers__empty "$1" || helpers__empty "$2" || helpers__empty "$3" || helpers__empty "$4"; then
     tellError "Usage: require_parameter_count [func] [lineno] [required_count] [actual_count]"
     printf "   Line: "
     caller

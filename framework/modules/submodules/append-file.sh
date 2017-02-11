@@ -20,7 +20,7 @@ append_file() {
   _file="$1"; shift
   _data="$1"; shift
 
-  if ! unabashed__helpers__empty "$1" && is_number "$1"; then
+  if ! helpers__empty "$1" && is_number "$1"; then
     _line="$1"; shift
   fi
 

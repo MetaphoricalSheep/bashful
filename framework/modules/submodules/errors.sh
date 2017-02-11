@@ -7,7 +7,7 @@ fi
 ua_show_errors() {
   __UA_ERRORS__=${__UA_ERRORS__:-}
 
-  if ! unabashed__helpers__empty $__UA_ERRORS__; then
+  if ! helpers__empty $__UA_ERRORS__; then
     local _e
     tellError  "Script execution errors" "ERRORS:"
 

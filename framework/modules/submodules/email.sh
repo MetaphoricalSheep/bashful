@@ -17,8 +17,8 @@ unabashed::email.__internal_validate_params() {
   _lineno="$1"; shift
   _scriptname=$(basename "${BASH_SOURCE[0]}")
         
-  if unabashed__helpers__empty "$_field"; then
-    __UA_ERRORS__+=("($_scriptname::$_lineno) <comment>Email</> $_field cannot be unabashed__helpers__empty")
+  if helpers__empty "$_field"; then
+    __UA_ERRORS__+=("($_scriptname::$_lineno) <comment>Email</> $_field cannot be helpers__empty")
     print_fail
     return 1
   fi
