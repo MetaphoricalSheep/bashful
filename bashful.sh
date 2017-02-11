@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-__BASHFULDIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-. "$__BASHFULDIR__"/framework/bashful.sh
+__UNABASHEDDIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
+. "$__UNABASHEDDIR__"/framework/unabashed.sh
 
 
 usage() {
   tellMessage "<info>Usage</>"
-  tellMessage "<comment>bashful [action] [project-dir]</>"
-  tellMessage "Creates a new bashful project at the specified directory."
+  tellMessage "<comment>unabashed [action] [project-dir]</>"
+  tellMessage "Creates a new unabashed project at the specified directory."
 
   exit 1
 }
 
 
 main() {
-  tellFancyTitle "Manage your bashful projects." "bashful:" "fg=white;bg=c_208"
+  tellFancyTitle "Manage your unabashed projects." "unabashed:" "fg=white;bg=c_208"
 
-  if bashful__helpers__empty "$1" || bashful__helpers__empty "$2"; then
+  if unabashed__helpers__empty "$1" || unabashed__helpers__empty "$2"; then
     usage
   fi
 
@@ -25,7 +25,7 @@ main() {
   local _project_dir="$1"; shift
   local _actions=("new" "update")
 
-  if ! bashful__helpers__empty "$1"; then
+  if ! unabashed__helpers__empty "$1"; then
     _project="$1"; shift
   fi
 
@@ -44,18 +44,18 @@ update_script() {
   local _project_dir="$1"; shift
   local _project="$1"; shift
     
-  tellMessage "<info>Creating bashful update helper script...</>"
+  tellMessage "<info>Creating unabashed update helper script...</>"
 
-  cat << proj > "$_project_dir/update-bashful"
+  cat << proj > "$_project_dir/update-unabashed"
 #!/usr/bin/env bash
 
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
 
-bashful update  "\$__DIR__" "$_project"
+unabashed update  "\$__DIR__" "$_project"
 proj
     
   tellMessage "<info>Making update helper executable...</>"
-  chmod +x "$_project_dir/update-bashful"
+  chmod +x "$_project_dir/update-unabashed"
 }
 
 
@@ -76,9 +76,9 @@ set -euo pipefail
 IFS=$'\n\t'
 
 
-# Including bashful framework
+# Including unabashed framework
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
-. "\$__DIR__"/bashful/bashful.sh
+. "\$__DIR__"/unabashed/unabashed.sh
 
 
 __PROJECT__=$_project
@@ -91,6 +91,14 @@ usage() {
 
   exit 1
 }
+
+tellFancyTitle "A new unabashed project." "\$__PROJECT__" "fg=white;bg=c_22"
+
+params="\$(getopt -o sh -l silent,help --name "\$(basename "\$0")" -- "\$@")"
+
+if [ $? != 0 ]; then
+    usage
+fi
 
 
 eval set -- "$params"
@@ -120,7 +128,6 @@ done
 
 
 main() {
-  tellFancyTitle "A new bashful project." "\$__PROJECT__" "fg=white;bg=c_22"
 }
 
 
@@ -139,13 +146,13 @@ install() {
 
   tellMessage "<info>Project Name</>: <comment>$_project</>"
   tellMessage "<info>Project Dir</> : <comment>$_project_dir</>"
-  tellMessage "<info>Installing bashful files...</>"
+  tellMessage "<info>Installing unabashed files...</>"
 
-  if directory_exists "$_project_dir"/bashful; then
-    rm -r "$_project_dir"/bashful
+  if directory_exists "$_project_dir"/unabashed; then
+    rm -r "$_project_dir"/unabashed
   fi
 
-  cp "$__BASHFULDIR__" "$_project_dir"/bashful -R
+  cp "$__UNABASHEDDIR__" "$_project_dir"/unabashed -R
 }
 
 update() {
@@ -158,8 +165,8 @@ update() {
     exit 1
   fi
 
-  if bashful__helpers__empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is bashful__helpers__empty. Nothing to update."
+  if unabashed__helpers__empty_dir "$_project_dir"; then
+    tellError "The project directory $_project_dir is unabashed__helpers__empty. Nothing to update."
     exit 1
   fi
 
@@ -177,8 +184,8 @@ new() {
     mkdir -p "$_project_dir"
   fi
 
-  if ! bashful__helpers__empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is not bashful__helpers__empty."
+  if ! unabashed__helpers__empty_dir "$_project_dir"; then
+    tellError "The project directory $_project_dir is not unabashed__helpers__empty."
     exit 1
   fi
 

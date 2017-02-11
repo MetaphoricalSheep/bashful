@@ -2,12 +2,12 @@
 
 __DIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 
-if [[ ! -f "$__DIR__"/framework/bashful.sh ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m The bashful framework is required. \e[39m\n"
+if [[ ! -f "$__DIR__"/framework/unabashed.sh ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m The unabashed framework is required. \e[39m\n"
   exit 1
 fi
 
-. "$__DIR__"/framework/bashful.sh
+. "$__DIR__"/framework/unabashed.sh
 
 
 usage() {
@@ -24,7 +24,7 @@ usage() {
 }
 
 
-tellFancyTitle "A cool bashful slogan will one day appear here" "INSTALL bashful" "fg=white;bg=c_55"
+tellFancyTitle "A cool unabashed slogan will one day appear here" "INSTALL unabashed" "fg=white;bg=c_55"
 params="$(getopt -o sh -l silent,help --name "$(basename "$0")" -- "$@")"
 
 if [ $? != 0 ]; then
@@ -57,20 +57,20 @@ while true; do
 done
     
 
-if [[ ! -d "/usr/local/lib/bashful" ]]; then
-  sudo ln -s "${__DIR__}" /usr/local/lib/bashful
+if [[ ! -d "/usr/local/lib/unabashed" ]]; then
+  sudo ln -s "${__DIR__}" /usr/local/lib/unabashed
 fi
 
-if [[ ! -f "/usr/local/bin/bashful" ]]; then
-  sudo ln -s "${__DIR__}"/bashful.sh /usr/local/bin/bashful
+if [[ ! -f "/usr/local/bin/unabashed" ]]; then
+  sudo ln -s "${__DIR__}"/unabashed.sh /usr/local/bin/unabashed
 fi
 
 PHP="sudo apt-get -y install php7.0-cli"
 
 if [[ "$SILENT" == false ]]; then
-  echo "Installing bashful library..."
+  echo "Installing unabashed library..."
   eval $PHP
-  echo "bashful has been successfully installed!"
+  echo "unabashed has been successfully installed!"
 else
   eval $PHP > /dev/null
 fi

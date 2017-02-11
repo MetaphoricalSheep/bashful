@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-. "$BATS_TEST_DIRNAME"/../bashful.sh
+. "$BATS_TEST_DIRNAME"/../unabashed.sh
 
 #------------------------------------------------helpers.is_number------------------------------------------------------------------
 

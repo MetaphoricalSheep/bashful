@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-. "$BATS_TEST_DIRNAME"/../bashful.sh
+. "$BATS_TEST_DIRNAME"/../unabashed.sh
 
 #------------------------------------------------helpers.is_number------------------------------------------------------------------
 
@@ -71,27 +71,27 @@
 }
 
 
-@test "check that \`file_exists /usr/local/bin/bashful\` returns 0" {
-  run is_file /usr/local/bin/bashful
+@test "check that \`file_exists /usr/local/bin/unabashed\` returns 0" {
+  run is_file /usr/local/bin/unabashed
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------------------------helpers.bashful__helpers__empty----------------------------------------------------------------------
-@test "check that \`bashful__helpers__empty\` returns 1" {
-  run bashful__helpers__empty
+#------------------------------------------------helpers.unabashed__helpers__empty----------------------------------------------------------------------
+@test "check that \`unabashed__helpers__empty\` returns 1" {
+  run unabashed__helpers__empty
   [ $status = 0 ]
 }
 
 
-@test "check that \`bashful__helpers__empty 5\` returns 1" {
-  run bashful__helpers__empty 5
+@test "check that \`unabashed__helpers__empty 5\` returns 1" {
+  run unabashed__helpers__empty 5
   [ $status = 1 ]
 }
 
 
-@test "check that \`bashful__helpers__empty \"\"\` returns 0" {
-  run bashful__helpers__empty ""
+@test "check that \`unabashed__helpers__empty \"\"\` returns 0" {
+  run unabashed__helpers__empty ""
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
@@ -189,32 +189,32 @@
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
 
-#------------------------------------------------helpers.bashful__helpers__empty_dir----------------------------------------------------------------------
-@test "check that \`bashful__helpers__empty_dir\` returns 1" {
-  run bashful__helpers__empty_dir
+#------------------------------------------------helpers.unabashed__helpers__empty_dir----------------------------------------------------------------------
+@test "check that \`unabashed__helpers__empty_dir\` returns 1" {
+  run unabashed__helpers__empty_dir
   [ $status = 1 ]
 }
 
 
-@test "check that \`bashful__helpers__empty_dir thereisnodirectorylikethishere\` returns 1" {
-  run bashful__helpers__empty_dir thereisnodirectorylikethishere
+@test "check that \`unabashed__helpers__empty_dir thereisnodirectorylikethishere\` returns 1" {
+  run unabashed__helpers__empty_dir thereisnodirectorylikethishere
   [ $status = 1 ]
 }
 
 
-@test "check that \`bashful__helpers__empty_dir /usr/local/bin\` returns 1" {
-  run bashful__helpers__empty_dir /usr/local/bin
+@test "check that \`unabashed__helpers__empty_dir /usr/local/bin\` returns 1" {
+  run unabashed__helpers__empty_dir /usr/local/bin
   [ $status = 1 ]
 }
 
 
-@test "check that \`bashful__helpers__empty_dir /tmp/arandomdirnamethatshouldnotexist\` returns 0" {
+@test "check that \`unabashed__helpers__empty_dir /tmp/arandomdirnamethatshouldnotexist\` returns 0" {
   local _file
   _file=/tmp/arandomdirnamethatshouldnotexist
   mkdir "$_file"
-  run bashful__helpers__empty_dir "$_file"
+  run unabashed__helpers__empty_dir "$_file"
   rm -rf "$_file"
   [ $status = 0 ]
 }
-#------------------------------------------------helpers.bashful__helpers__empty_dir----------------------------------------------------------------------
+#------------------------------------------------helpers.unabashed__helpers__empty_dir----------------------------------------------------------------------
 

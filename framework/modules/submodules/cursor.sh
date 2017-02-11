@@ -1,10 +1,10 @@
-if [[ -z "$__BASHFULDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+if [[ -z "$__UNABASHEDDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source unabashed.sh. \e[39m\n"
   exit 1
 fi
 
 
-bf_move_cursor_up() {
+ua_move_cursor_up() {
   local _line
   _line=${1:-1}
   echo -en "\033[$_line"A
@@ -13,7 +13,7 @@ bf_move_cursor_up() {
 }
 
 
-bf_move_cursor_down() {
+ua_move_cursor_down() {
   local _line
   _line=${1:-1}
   echo -en "\033[$_line"B
@@ -22,7 +22,7 @@ bf_move_cursor_down() {
 }
 
 
-bf_move_cursor_forward() {
+ua_move_cursor_forward() {
   local _col
   _col=${1:-1}
   echo -en "\033[$_col"C
@@ -31,7 +31,7 @@ bf_move_cursor_forward() {
 }
 
 
-bf_move_cursor_backward() {
+ua_move_cursor_backward() {
   local _col
   _col=${1:-1}
   echo -en "\033[$_col"D
@@ -40,7 +40,7 @@ bf_move_cursor_backward() {
 }
 
 
-bf_set_cursor_pos() {
+ua_set_cursor_pos() {
   local _line
   local _col
   _line=${1:-0}
@@ -52,25 +52,25 @@ bf_set_cursor_pos() {
 
 
 # Clears the screen and moves cursor to (0,0)
-bf_clear_screen() {
+ua_clear_screen() {
   echo -en "\033[2J"
   return 0
 }
 
 
-bf_erase_eol() {
+ua_erase_eol() {
   echo -en "\033[K"
   return 0
 }
 
 
-bf_save_cursor_pos() {
+ua_save_cursor_pos() {
   echo -en "\033[s"
   return 0
 }
 
 
-bf_restore_cursor_pos() {
+ua_restore_cursor_pos() {
   echo -en "\033[u"
   return 0
 }

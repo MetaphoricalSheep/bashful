@@ -1,10 +1,10 @@
-if [[ -z "$__BASHFULDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+if [[ -z "$__UNABASHEDDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source unabashed.sh. \e[39m\n"
   exit 1
 fi
 
 
-bashful::email.__internal_validate_params() {
+unabashed::email.__internal_validate_params() {
   require_parameter_count "$FUNCNAME" "$LINENO" 3 "$#"
 
   local _value
@@ -17,8 +17,8 @@ bashful::email.__internal_validate_params() {
   _lineno="$1"; shift
   _scriptname=$(basename "${BASH_SOURCE[0]}")
         
-  if bashful__helpers__empty "$_field"; then
-    __BF_ERRORS__+=("($_scriptname::$_lineno) <comment>Email</> $_field cannot be bashful__helpers__empty")
+  if unabashed__helpers__empty "$_field"; then
+    __UA_ERRORS__+=("($_scriptname::$_lineno) <comment>Email</> $_field cannot be unabashed__helpers__empty")
     print_fail
     return 1
   fi
@@ -27,7 +27,7 @@ bashful::email.__internal_validate_params() {
 }
 
 
-bashful::email.send_mail() {
+unabashed::email.send_mail() {
   require_parameter_count "$FUNCNAME" "$LINENO" 2 "$#"
 
   local _subject
@@ -50,10 +50,10 @@ bashful::email.send_mail() {
   _verbose=${__VERBOSE__:-true}
   _quiet=${__QUIET__:-false}
 
-  bashful::email.__internal_validate_params "$_to" "to address" "$LINENO"
-  bashful::email.__internal_validate_params "$_from" "from address" "$LINENO"
-  bashful::email.__internal_validate_params "$mailgun__server" "server" "$LINENO"
-  bashful::email.__internal_validate_params "$mailgun__key" "api key" "$LINENO"
+  unabashed::email.__internal_validate_params "$_to" "to address" "$LINENO"
+  unabashed::email.__internal_validate_params "$_from" "from address" "$LINENO"
+  unabashed::email.__internal_validate_params "$mailgun__server" "server" "$LINENO"
+  unabashed::email.__internal_validate_params "$mailgun__key" "api key" "$LINENO"
 
   if [[ "$_verbose" == false ]] || [[ "$_quiet" == true ]]; then
     curl -s --user "api:$mailgun__key" \

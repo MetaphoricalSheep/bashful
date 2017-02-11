@@ -1,6 +1,6 @@
 # output formatter
-if [[ -z "$__BASHFULDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+if [[ -z "$__UNABASHEDDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source unabashed.sh. \e[39m\n"
   exit 1
 fi
 
@@ -24,8 +24,8 @@ format_message() {
   _msg=${1:-}; shift
   _no_newline=${1:-}
 
-  bashful__helpers__empty "$_msg" && return 1
-  bashful__helpers__empty "$_no_newline" && echo -e $(php "$__BASHFULDIR__"/modules/submodules/formatter.php "$_msg") || echo -en $(php "$__BASHFULDIR__"/modules/submodules/formatter.php "$_msg")
+  unabashed__helpers__empty "$_msg" && return 1
+  unabashed__helpers__empty "$_no_newline" && echo -e $(php "$__UNABASHEDDIR__"/modules/submodules/formatter.php "$_msg") || echo -en $(php "$__UNABASHEDDIR__"/modules/submodules/formatter.php "$_msg")
 }
 
 
@@ -87,7 +87,7 @@ tellMessage() {
   local _no_newline
   _msg=${1:- }
   _no_newline=${2:-}
-  bashful__helpers__empty "$_no_newline" && format_message "$_msg" || format_message "$_msg" $_no_newline
+  unabashed__helpers__empty "$_no_newline" && format_message "$_msg" || format_message "$_msg" $_no_newline
 }
 
 
@@ -181,16 +181,16 @@ tellLoader() {
   _inline=${1:-}
 
   setterm -cursor off
-  ! bashful__helpers__empty "$_inline" && bf_move_cursor_up
+  ! unabashed__helpers__empty "$_inline" && ua_move_cursor_up
 
   while kill -0 $_pid 2>/dev/null; do
     i=$(( (i+1) %4 ))
-    bashful__helpers__empty "$_inline" && printf "\r${_spinstr:$i:1}" || bf_move_cursor_forward "$_inline"; echo -n "${_spinstr:$i:1}"; printf "\r"
+    unabashed__helpers__empty "$_inline" && printf "\r${_spinstr:$i:1}" || ua_move_cursor_forward "$_inline"; echo -n "${_spinstr:$i:1}"; printf "\r"
     sleep $_delay
   done
     
   setterm -cursor on
-  bashful__helpers__empty "$_inline" && printf "\r"
+  unabashed__helpers__empty "$_inline" && printf "\r"
 
   return 0
 }

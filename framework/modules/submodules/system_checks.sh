@@ -1,5 +1,5 @@
-if [[ -z "$__BASHFULDIR__" ]]; then
-  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source bashful.sh. \e[39m\n"
+if [[ -z "$__UNABASHEDDIR__" ]]; then
+  echo -e "\e[31m""ERROR: \e[39m\e[49m You cannot source this file directly. Source unabashed.sh. \e[39m\n"
   exit 1
 fi
 
@@ -7,11 +7,11 @@ fi
 #
 # Checks if the OS Version is in a given array
 # 
-bashful_os_version_check() {
+unabashed_os_version_check() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-  if (! in_array "$__BF_OS_VERSION__" ${@:1}); then
-    tellError "$__BF_OS_NAME__ is not currently supported by this install script."
+  if (! in_array "$__UA_OS_VERSION__" ${@:1}); then
+    tellError "$__UA_OS_NAME__ is not currently supported by this install script."
 
     exit 1
   fi
