@@ -111,7 +111,6 @@ while true; do
     -s|--silent)
       SILENT=true
       shift
-      break;;
     -h|--help)
       usage
       shift
@@ -152,11 +151,11 @@ install() {
     rm -r "$_project_dir"/.unabashed
   fi
   
-  if directory_exists "$_project_dir"/.unabashed/config; then
-    rsync -azq --ignore-existing "$__UNABASHEDDIR__"/../config "$_project_dir"/config 
-    rsync -azq "$__UNABASHEDDIR__"/../config/*.default.*.yml "$_project_dir"/config/
+  if directory_exists "$_project_dir"/config; then
+    rsync -azq --ignore-existing "$__UNABASHEDDIR__"/../config "$_project_dir"
+    cp "$__UNABASHEDDIR__"/../config/*.default*.yml "$_project_dir"/config/
   else
-    cp "$__UNABASHEDDIR__"/../config "$_project_dir"/config -R
+    cp "$__UNABASHEDDIR__"/../config "$_project_dir"/ -R
   fi
 
   cp "$__UNABASHEDDIR__" "$_project_dir"/.unabashed -R
