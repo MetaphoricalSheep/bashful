@@ -4,7 +4,7 @@ if [[ -z "$__UNABASHEDDIR__" ]]; then
 fi
 
 
-output__cursor__move_cursor_up() {
+output__cursor__up() {
   local _line
   _line=${1:-1}
   echo -en "\033[$_line"A
@@ -13,7 +13,7 @@ output__cursor__move_cursor_up() {
 }
 
 
-output__cursor__move_cursor_down() {
+output__cursor__down() {
   local _line
   _line=${1:-1}
   echo -en "\033[$_line"B
@@ -22,7 +22,7 @@ output__cursor__move_cursor_down() {
 }
 
 
-output__cursor__move_cursor_forward() {
+output__cursor__forward() {
   local _col
   _col=${1:-1}
   echo -en "\033[$_col"C
@@ -31,7 +31,7 @@ output__cursor__move_cursor_forward() {
 }
 
 
-output__cursor__move_cursor_backward() {
+output__cursor__backward() {
   local _col
   _col=${1:-1}
   echo -en "\033[$_col"D
