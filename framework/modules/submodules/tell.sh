@@ -181,11 +181,11 @@ output__tell__loader() {
   _inline=${1:-}
 
   setterm -cursor off
-  ! helpers__empty "$_inline" && ua_move_cursor_up
+  ! helpers__empty "$_inline" && output__cursor__move_cursor_up
 
   while kill -0 $_pid 2>/dev/null; do
     i=$(( (i+1) %4 ))
-    helpers__empty "$_inline" && printf "\r${_spinstr:$i:1}" || ua_move_cursor_forward "$_inline"; echo -n "${_spinstr:$i:1}"; printf "\r"
+    helpers__empty "$_inline" && printf "\r${_spinstr:$i:1}" || output__cursor__move_cursor_forward "$_inline"; echo -n "${_spinstr:$i:1}"; printf "\r"
     sleep $_delay
   done
     

@@ -4,7 +4,7 @@ if [[ -z "$__UNABASHEDDIR__" ]]; then
 fi
 
 
-ua_move_cursor_up() {
+output__cursor__move_cursor_up() {
   local _line
   _line=${1:-1}
   echo -en "\033[$_line"A
@@ -13,7 +13,7 @@ ua_move_cursor_up() {
 }
 
 
-ua_move_cursor_down() {
+output__cursor__move_cursor_down() {
   local _line
   _line=${1:-1}
   echo -en "\033[$_line"B
@@ -22,7 +22,7 @@ ua_move_cursor_down() {
 }
 
 
-ua_move_cursor_forward() {
+output__cursor__move_cursor_forward() {
   local _col
   _col=${1:-1}
   echo -en "\033[$_col"C
@@ -31,7 +31,7 @@ ua_move_cursor_forward() {
 }
 
 
-ua_move_cursor_backward() {
+output__cursor__move_cursor_backward() {
   local _col
   _col=${1:-1}
   echo -en "\033[$_col"D
@@ -40,7 +40,7 @@ ua_move_cursor_backward() {
 }
 
 
-ua_set_cursor_pos() {
+output__cursor__set_pos() {
   local _line
   local _col
   _line=${1:-0}
@@ -52,25 +52,25 @@ ua_set_cursor_pos() {
 
 
 # Clears the screen and moves cursor to (0,0)
-ua_clear_screen() {
+output__cursor__clear_screen() {
   echo -en "\033[2J"
   return 0
 }
 
 
-ua_erase_eol() {
+output__cursor__erase_eol() {
   echo -en "\033[K"
   return 0
 }
 
 
-ua_save_cursor_pos() {
+output__cursor__save_pos() {
   echo -en "\033[s"
   return 0
 }
 
 
-ua_restore_cursor_pos() {
+output__cursor__restore_pos() {
   echo -en "\033[u"
   return 0
 }

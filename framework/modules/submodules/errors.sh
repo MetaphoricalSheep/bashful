@@ -4,7 +4,7 @@ if [[ -z "$__UNABASHEDDIR__" ]]; then
 fi
 
 
-ua_show_errors() {
+output__errors__show() {
   __UA_ERRORS__=${__UA_ERRORS__:-}
 
   if ! helpers__empty $__UA_ERRORS__; then

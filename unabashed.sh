@@ -14,7 +14,7 @@ usage() {
 
 
 main() {
-  output__tell__fancyTitle "Manage your unabashed projects." "unabashed:" "fg=white;bg=c_208"
+  output__tell__fancyTitle "Manage your unabashed projects." "unabashed:" "fg=black;bg=c_208"
 
   if helpers__empty "$1" || helpers__empty "$2"; then
     usage
