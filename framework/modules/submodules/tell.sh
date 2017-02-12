@@ -17,7 +17,7 @@ ERROR="$red"
 TITLE=""
 
 
-format_message() {
+__internal_format_message() {
   local _msg
   local _no_newline
     
@@ -29,7 +29,7 @@ format_message() {
 }
 
 
-tellFancyTitle() {
+output__tell__fancyTitle() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
   local _title="  $1              "; shift
@@ -55,11 +55,11 @@ tellFancyTitle() {
   _final="$_final<$_format>$_subtitle</><bg=white;fg=black>$_title</>\n"
   _final="$_final<$_format>$_subtitle_space</><bg=white;fg=black>$_title_space</>\n"
 
-  format_message "$_final"
+  __internal_format_message "$_final"
 }
 
 
-tellTitle() {
+output__tell__title() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
   local _msg
@@ -78,22 +78,22 @@ tellTitle() {
 
   local _final="\n<$_format>$_space\n  $_msg  \n$_space</>\n"
 
-  format_message "$_final"
+  __internal_format_message "$_final"
 }
 
 
-tellMessage() {
+output__tell__message() {
   local _msg
   local _no_newline
   _msg=${1:- }
   _no_newline=${2:-}
-  helpers__empty "$_no_newline" && format_message "$_msg" || format_message "$_msg" $_no_newline
+  helpers__empty "$_no_newline" && __internal_format_message "$_msg" || __internal_format_message "$_msg" $_no_newline
 }
 
 
 # $1=message    #required
 # $2=color all  #default=no
-tellError() {
+output__tell__error() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
   local MSG=$1
@@ -108,7 +108,7 @@ tellError() {
   MSG="\n<bg=c_196>          </><bg=white>$SPACE</>\n"
   MSG="$MSG<fg=white;bg=c_196>  ERROR:  </><fg=c_238;bg=white>  $1  </>\n"
   MSG="$MSG<bg=c_196>          </><bg=white>$SPACE</>\n"
-  >&2 format_message "$MSG"
+  >&2 __internal_format_message "$MSG"
 }
 
 
@@ -116,9 +116,9 @@ tellError() {
 # $2=status    #default=SUCCESS
 # $3=statusmessage #default based on status
 # $4=behaviour #default=echo
-tellStatus() {
+output__tell__status() {
   if [ -z "$1" ]; then
-    tellError "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
+    output__tell__error "Message (arg1) is required for function \`$FUNCNAME\` on line $LINENO!"
     printf "   Line: "
     caller
     exit $?
@@ -169,7 +169,7 @@ tellStatus() {
 }
 
 
-tellLoader() {
+output__tell__loader() {
   local _pid
   local _delay
   local _spinstr
@@ -196,6 +196,6 @@ tellLoader() {
 }
 
 
-tellClearFormatting() {
-  tellMessage "$normal"
+output__tell__clearFormatting() {
+  output__tell__message "$normal"
 }

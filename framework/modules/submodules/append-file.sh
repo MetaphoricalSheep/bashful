@@ -25,7 +25,7 @@ append_file() {
   fi
 
   if ! file_exists "$_file"; then
-    tellError "$_file does not exist."
+    output__tell__error "$_file does not exist."
     exit 1
   fi
 

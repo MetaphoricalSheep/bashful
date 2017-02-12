@@ -9,11 +9,11 @@ ua_show_errors() {
 
   if ! helpers__empty $__UA_ERRORS__; then
     local _e
-    tellError  "Script execution errors" "ERRORS:"
+    output__tell__error  "Script execution errors" "ERRORS:"
 
     for _e in "${__UA_ERRORS__[@]}"; do
-      #tellError "$_e"
-      >&2 tellMessage "  - $_e"
+      #output__tell__error "$_e"
+      >&2 output__tell__message "  - $_e"
     done
   fi
 }

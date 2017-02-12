@@ -75,7 +75,7 @@ check_root() {
   if [[ $EUID -ne 0 ]]; then
     local _msg
     _msg=${1:-"This script requires root access"}
-    tellError "$_msg"
+    output__tell__error "$_msg"
 
     exit 1
   fi
@@ -116,7 +116,7 @@ helpers__empty_dir() {
   local _dir="$1"; shift
 
   if ! is_directory "$_dir"; then
-    tellError "helpers__empty_dir requires a directory as parameter."
+    output__tell__error "helpers__empty_dir requires a directory as parameter."
     printf "   Line: "
     caller
     exit 1 
@@ -129,7 +129,7 @@ helpers__empty_dir() {
 
 require_parameter_count() {
   if helpers__empty "$1" || helpers__empty "$2" || helpers__empty "$3" || helpers__empty "$4"; then
-    tellError "Usage: require_parameter_count [func] [lineno] [required_count] [actual_count]"
+    output__tell__error "Usage: require_parameter_count [func] [lineno] [required_count] [actual_count]"
     printf "   Line: "
     caller
     exit 1 
@@ -141,7 +141,7 @@ require_parameter_count() {
   local _actual="$1"; shift
 
   if [[ "$_actual" < "$_required" ]]; then
-    tellError "$_func::$_lineno requires at least $_required parameters."
+    output__tell__error "$_func::$_lineno requires at least $_required parameters."
     printf "   Line: "
     caller
     exit 1 

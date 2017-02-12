@@ -12,19 +12,19 @@ fi
 
 usage() {
   SCRIPTNAME=$(basename "$0")
-  tellTitle "USAGE:"
-  tellMessage "<comment>$SCRIPTNAME</comment>"
-  tellMessage "Run with default options set.\n"
-  tellMessage "<comment>$SCRIPTNAME -s|--silent</comment>"
-  tellMessage "Runs the script in silence mode -- no output is displayed.\n"
-  tellMessage "<comment>$SCRIPTNAME -h[--help]</comment>"
-  tellMessage "Display this usage dialog."
+  output__tell__title "USAGE:"
+  output__tell__message "<comment>$SCRIPTNAME</comment>"
+  output__tell__message "Run with default options set.\n"
+  output__tell__message "<comment>$SCRIPTNAME -s|--silent</comment>"
+  output__tell__message "Runs the script in silence mode -- no output is displayed.\n"
+  output__tell__message "<comment>$SCRIPTNAME -h[--help]</comment>"
+  output__tell__message "Display this usage dialog."
 
   exit 1
 }
 
 
-tellFancyTitle "A cool unabashed slogan will one day appear here" "INSTALL unabashed" "fg=white;bg=c_55"
+output__tell__fancyTitle "A cool unabashed slogan will one day appear here" "INSTALL unabashed" "fg=white;bg=c_55"
 params="$(getopt -o sh -l silent,help --name "$(basename "$0")" -- "$@")"
 
 if [ $? != 0 ]; then

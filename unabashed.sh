@@ -5,16 +5,16 @@ __UNABASHEDDIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 
 
 usage() {
-  tellMessage "<info>Usage</>"
-  tellMessage "<comment>unabashed [action] [project-dir]</>"
-  tellMessage "Creates a new unabashed project at the specified directory."
+  output__tell__message "<info>Usage</>"
+  output__tell__message "<comment>unabashed [action] [project-dir]</>"
+  output__tell__message "Creates a new unabashed project at the specified directory."
 
   exit 1
 }
 
 
 main() {
-  tellFancyTitle "Manage your unabashed projects." "unabashed:" "fg=white;bg=c_208"
+  output__tell__fancyTitle "Manage your unabashed projects." "unabashed:" "fg=white;bg=c_208"
 
   if helpers__empty "$1" || helpers__empty "$2"; then
     usage
@@ -30,7 +30,7 @@ main() {
   fi
 
   if ! helpers__in_array "$_action" "${_actions[@]}"; then
-    tellError "$_action is not a valid action."
+    output__tell__error "$_action is not a valid action."
 
     exit 1
   fi
@@ -44,7 +44,7 @@ update_script() {
   local _project_dir="$1"; shift
   local _project="$1"; shift
     
-  tellMessage "<info>Creating unabashed update helper script...</>"
+  output__tell__message "<info>Creating unabashed update helper script...</>"
 
   cat << proj > "$_project_dir/update-unabashed"
 #!/usr/bin/env bash
@@ -54,7 +54,7 @@ __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
 unabashed update  "\$__DIR__" "$_project"
 proj
     
-  tellMessage "<info>Making update helper executable...</>"
+  output__tell__message "<info>Making update helper executable...</>"
   chmod +x "$_project_dir/update-unabashed"
 }
 
@@ -64,7 +64,7 @@ new_script() {
   local _project_dir="$1"; shift
   local _project="$1"; shift
     
-  tellMessage "<info>Creating project script...</>"
+  output__tell__message "<info>Creating project script...</>"
 
   cat << proj >> "$_project_dir/$_project".sh
 #!/usr/bin/env bash
@@ -85,14 +85,14 @@ __PROJECT__=$_project
 
 
 usage() {
-  tellMessage "<info>Usage</>"
-  tellMessage "<comment>\$__PROJECT__ <param> [param]"
-  tellMessage "Your usage instrunctions should come here."
+  output__tell__message "<info>Usage</>"
+  output__tell__message "<comment>\$__PROJECT__ <param> [param]"
+  output__tell__message "Your usage instrunctions should come here."
 
   exit 1
 }
 
-tellFancyTitle "A new unabashed project." "\$__PROJECT__" "fg=white;bg=c_22"
+output__tell__fancyTitle "A new unabashed project." "\$__PROJECT__" "fg=white;bg=c_22"
 
 params="\$(getopt -o sh -l silent,help --name "\$(basename "\$0")" -- "\$@")"
 
@@ -110,15 +110,11 @@ while true; do
   case "\$1" in
     -s|--silent)
       SILENT=true
-      shift
-    -h|--help)
-      usage
-      shift
-      break;;
+      ;;
     --)
       shift
       break;;
-    *)
+    -h|--help|*)
       usage
       break;;
   esac
@@ -133,7 +129,7 @@ main() {
 main "\$@"
 proj
     
-  tellMessage "<info>Making project script executable...</>"
+  output__tell__message "<info>Making project script executable...</>"
   chmod +x "$_project_dir/$_project".sh
 }
 
@@ -143,9 +139,9 @@ install() {
   local _project_dir="$1"; shift
   local _project="$1"; shift
 
-  tellMessage "<info>Project Name</>: <comment>$_project</>"
-  tellMessage "<info>Project Dir</> : <comment>$_project_dir</>"
-  tellMessage "<info>Installing unabashed files...</>"
+  output__tell__message "<info>Project Name</>: <comment>$_project</>"
+  output__tell__message "<info>Project Dir</> : <comment>$_project_dir</>"
+  output__tell__message "<info>Installing unabashed files...</>"
 
   if directory_exists "$_project_dir"/.unabashed; then
     rm -r "$_project_dir"/.unabashed
@@ -167,12 +163,12 @@ update() {
   local _project="$1"; shift
     
   if ! directory_exists "$_project_dir"; then
-    tellError "The project directory $_project_dir does not exist. Nothing to update."
+    output__tell__error "The project directory $_project_dir does not exist. Nothing to update."
     exit 1
   fi
 
   if helpers__empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is empty. Nothing to update."
+    output__tell__error "The project directory $_project_dir is empty. Nothing to update."
     exit 1
   fi
 
@@ -191,7 +187,7 @@ new() {
   fi
 
   if ! helpers__empty_dir "$_project_dir"; then
-    tellError "The project directory $_project_dir is not empty."
+    output__tell__error "The project directory $_project_dir is not empty."
     exit 1
   fi
 
