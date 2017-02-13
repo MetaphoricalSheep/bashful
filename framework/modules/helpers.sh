@@ -4,7 +4,7 @@ if [[ -z "$__UNABASHEDDIR__" ]]; then
 fi
 
 
-is_number() {
+helpers__is_number() {
   helpers__empty "$1" && return 1
   local _num="$1"; shift
   local _re='^[0-9]+$'

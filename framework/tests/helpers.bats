@@ -2,28 +2,28 @@
 
 . "$BATS_TEST_DIRNAME"/../unabashed.sh
 
-#------------------------------------------------helpers.is_number------------------------------------------------------------------
+#------------------------------------------------helpers.helpers__is_number------------------------------------------------------------------
 
-@test "check that \`is_number\` returns 1" {
-  run is_number
+@test "check that \`helpers__is_number\` returns 1" {
+  run helpers__is_number
   [ $status = 1 ]
 }
 
 
-@test "check that \`is_number 7\` returns 0" {
-  run is_number 7
+@test "check that \`helpers__is_number 7\` returns 0" {
+  run helpers__is_number 7
   [ $status = 0 ]
 }
 
 
-@test "check that \`is_number B\` returns 1" {
-  run is_number B
+@test "check that \`helpers__is_number B\` returns 1" {
+  run helpers__is_number B
   [ $status = 1 ]
 }
 
 
-@test "check that \`is_number 1str4num5\` returns 1" {
-  run is_number 1str4num5
+@test "check that \`helpers__is_number 1str4num5\` returns 1" {
+  run helpers__is_number 1str4num5
   [ $status = 1 ]
 }
 
@@ -183,8 +183,8 @@
 }
 
 
-@test "check that \`function_exists is_number\` returns 0" {
-  run function_exists is_number
+@test "check that \`function_exists helpers__is_number\` returns 0" {
+  run function_exists helpers__is_number
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------
