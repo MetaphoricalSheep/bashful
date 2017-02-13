@@ -155,3 +155,22 @@ unix_timestamp() {
   echo "$_timestamp"
   return 0
 }
+
+
+# $1 - string filename
+# $2 - bool recursive
+helpers__get_hash() {
+  require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
+
+  if helpers__empty "${1:-}"; then
+    echo 0
+  fi
+
+  if helpers__empty "${2:-}"; then
+    echo `md5sum "$1"`
+  else
+    echo `find "$1" -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum`
+  fi
+}
+
+
