@@ -86,7 +86,7 @@ __PROJECT__=$_project
 
 usage() {
   output__tell__message "<info>Usage</>"
-  output__tell__message "<comment>\$__PROJECT__ <param> [param]"
+  output__tell__message "<comment>\$__PROJECT__ <param> [param]</>"
   output__tell__message "Your usage instrunctions should come here."
 
   exit 1
