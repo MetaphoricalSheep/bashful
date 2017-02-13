@@ -72,7 +72,7 @@
 
 
 @test "check that \`file_exists /usr/local/bin/unabashed\` returns 0" {
-  run is_file /usr/local/bin/unabashed
+  run helpers__is_file /usr/local/bin/unabashed
   [ $status = 0 ]
 }
 #-----------------------------------------------------------------------------------------------------------------------------------

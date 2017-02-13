@@ -33,7 +33,7 @@ file_exists() {
 }
 
 
-is_file() {
+helpers__is_file() {
   file_exists "$1" && return 0
   return 1
 }

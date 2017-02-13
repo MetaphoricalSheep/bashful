@@ -57,7 +57,7 @@ unabashed::templates::parse_template() {
   local _pmatch
 
   _template="$1";shift
-  if ! is_file "$_template"; then
+  if ! helpers__is_file "$_template"; then
     local _scriptname
     _scriptname=$(basename "${BASH_SOURCE[0]}")
     __UA_ERRORS__+=("($_scriptname::$LINENO) <comment>$_template</> is not a file.")
