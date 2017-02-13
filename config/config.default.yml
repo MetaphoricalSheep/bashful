@@ -5,7 +5,3 @@ mailgun:
   to_name: 
   to_email: 
   server: 
-
-git:
-  email:
-  name:
