@@ -4,16 +4,16 @@ if [[ -z "$__UNABASHEDDIR__" ]]; then
 fi
 
 
-ua_show_errors() {
+output__errors__show() {
   __UA_ERRORS__=${__UA_ERRORS__:-}
 
-  if ! unabashed__helpers__empty $__UA_ERRORS__; then
+  if ! helpers__empty $__UA_ERRORS__; then
     local _e
-    tellError  "Script execution errors" "ERRORS:"
+    output__tell__error  "Script execution errors" "ERRORS:"
 
     for _e in "${__UA_ERRORS__[@]}"; do
-      #tellError "$_e"
-      >&2 tellMessage "  - $_e"
+      #output__tell__error "$_e"
+      >&2 output__tell__message "  - $_e"
     done
   fi
 }

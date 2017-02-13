@@ -56,13 +56,21 @@ __internal_unabashed_load_dependencies() {
       __internal_unabashed_preload_error_handler "Usage: $FUNCNAME [directory_path]"
   fi
 
+  local SKIP=(config.sh helpers.sh)
+
+  . "$__UNABASHEDDIR__"/modules/helpers.sh
+
   if [[ ! -d "$1" ]]; then
     __internal_unabashed_preload_error_handler "$1 is not a directory."
   fi
 
   for file in `find "$1" -maxdepth 1 -name '*.sh'`; do
-    . "$file"
+    if (! helpers__in_array $(basename "$file") "${SKIP[@]}"); then
+      . "$file"
+    fi
   done
+  
+  . "$__UNABASHEDDIR__"/modules/config.sh
 }
 
 

@@ -4,8 +4,8 @@ if [[ -z "$__UNABASHEDDIR__" ]]; then
 fi
 
 
-is_number() {
-  unabashed__helpers__empty "$1" && return 1
+helpers__is_number() {
+  helpers__empty "$1" && return 1
   local _num="$1"; shift
   local _re='^[0-9]+$'
   ! [[ $_num =~ $_re ]] && return 1
@@ -17,7 +17,7 @@ is_number() {
 is_array() {
   # Call by using is_array array_name;
   # NOT is_array $array_name
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   declare -p ${1} 2> /dev/null | grep 'declare \-a' >/dev/null && return 0
 
   return 1
@@ -25,7 +25,7 @@ is_array() {
 
 
 file_exists() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   local _file="$1"; shift
   [ -f "$_file" ] && return 0
 
@@ -33,13 +33,13 @@ file_exists() {
 }
 
 
-is_file() {
+helpers__is_file() {
   file_exists "$1" && return 0
   return 1
 }
 
 
-unabashed__helpers__empty() {
+helpers__empty() {
   local _var
   _var=${1:-}
   [ -z "$_var" ] && return 0
@@ -49,7 +49,7 @@ unabashed__helpers__empty() {
 
 
 dir_exists() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   [ -d "$1" ] && return 0
 
   return 1
@@ -75,16 +75,16 @@ check_root() {
   if [[ $EUID -ne 0 ]]; then
     local _msg
     _msg=${1:-"This script requires root access"}
-    tellError "$_msg"
+    output__tell__error "$_msg"
 
     exit 1
   fi
 }
 
 
-in_array() {
-  unabashed__helpers__empty "$1" && return 1
-  unabashed__helpers__empty "$2" && return 1
+helpers__in_array() {
+  helpers__empty "$1" && return 1
+  helpers__empty "$2" && return 1
     
   local _needle
   _needle="$1"
@@ -99,10 +99,10 @@ in_array() {
 
 
 function_exists() {
-  unabashed__helpers__empty "$1" && return 1
+  helpers__empty "$1" && return 1
   local _function="$1"; shift
 
-  if ! unabashed__helpers__empty $(type -t "$_function"); then
+  if ! helpers__empty $(type -t "$_function"); then
     return 0
   fi
 
@@ -110,13 +110,13 @@ function_exists() {
 }
 
 
-unabashed__helpers__empty_dir() {
+helpers__empty_dir() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
   local _dir="$1"; shift
 
   if ! is_directory "$_dir"; then
-    tellError "unabashed__helpers__empty_dir requires a directory as parameter."
+    output__tell__error "helpers__empty_dir requires a directory as parameter."
     printf "   Line: "
     caller
     exit 1 
@@ -128,8 +128,8 @@ unabashed__helpers__empty_dir() {
 
 
 require_parameter_count() {
-  if unabashed__helpers__empty "$1" || unabashed__helpers__empty "$2" || unabashed__helpers__empty "$3" || unabashed__helpers__empty "$4"; then
-    tellError "Usage: require_parameter_count [func] [lineno] [required_count] [actual_count]"
+  if helpers__empty "$1" || helpers__empty "$2" || helpers__empty "$3" || helpers__empty "$4"; then
+    output__tell__error "Usage: require_parameter_count [func] [lineno] [required_count] [actual_count]"
     printf "   Line: "
     caller
     exit 1 
@@ -141,7 +141,7 @@ require_parameter_count() {
   local _actual="$1"; shift
 
   if [[ "$_actual" < "$_required" ]]; then
-    tellError "$_func::$_lineno requires at least $_required parameters."
+    output__tell__error "$_func::$_lineno requires at least $_required parameters."
     printf "   Line: "
     caller
     exit 1 
@@ -155,3 +155,22 @@ unix_timestamp() {
   echo "$_timestamp"
   return 0
 }
+
+
+# $1 - string filename
+# $2 - bool recursive
+helpers__get_hash() {
+  require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
+
+  if helpers__empty "${1:-}"; then
+    echo 0
+  fi
+
+  if helpers__empty "${2:-}"; then
+    echo `md5sum "$1"`
+  else
+    echo `find "$1" -type f -print0 | sort -z | xargs -0 sha1sum | sha1sum`
+  fi
+}
+
+

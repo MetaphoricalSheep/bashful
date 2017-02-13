@@ -10,8 +10,8 @@ fi
 unabashed_os_version_check() {
   require_parameter_count "$FUNCNAME" "$LINENO" 1 "$#"
 
-  if (! in_array "$__UA_OS_VERSION__" ${@:1}); then
-    tellError "$__UA_OS_NAME__ is not currently supported by this install script."
+  if (! helpers__in_array "$__UA_OS_VERSION__" ${@:1}); then
+    output__tell__error "$__UA_OS_NAME__ is not currently supported by this install script."
 
     exit 1
   fi
@@ -31,6 +31,6 @@ check_dependency() {
 command_not_found_handle() {
   local _caller_file
   _caller_file=$(echo $(caller | awk '{print $2}'))
-  tellError "$_caller_file::${FUNCNAME[1]}::$LINENO::$1: command not found"
+  output__tell__error "$_caller_file::${FUNCNAME[1]}::$LINENO::$1: command not found"
   return $?
 }
