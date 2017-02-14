@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+__DIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 __UNABASHEDDIR__=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 . "$__UNABASHEDDIR__"/framework/unabashed.sh
 
@@ -78,7 +79,7 @@ IFS=$'\n\t'
 
 # Including unabashed framework
 __DIR__=\$(dirname \$(readlink -f "\${BASH_SOURCE[0]}"))
-. "\$__DIR__"/.unabashed/unabashed.sh
+. "\$__DIR__"/vendor/unabashed/unabashed.sh
 
 
 __PROJECT__=$_project
@@ -143,10 +144,10 @@ install() {
   output__tell__message "<info>Project Dir</> : <comment>$_project_dir</>"
   output__tell__message "<info>Installing unabashed files...</>"
 
-  if directory_exists "$_project_dir"/.unabashed; then
-    rm -r "$_project_dir"/.unabashed
+  if directory_exists "$_project_dir"/vendor/unabashed; then
+    rm -r "$_project_dir"/vendor/unabashed
   fi
-  
+
   if directory_exists "$_project_dir"/config; then
     rsync -azq --ignore-existing "$__UNABASHEDDIR__"/../config "$_project_dir"
     cp "$__UNABASHEDDIR__"/../config/*.default*.yml "$_project_dir"/config/
@@ -154,7 +155,7 @@ install() {
     cp "$__UNABASHEDDIR__"/../config "$_project_dir"/ -R
   fi
 
-  cp "$__UNABASHEDDIR__" "$_project_dir"/.unabashed -R
+  cp "$__UNABASHEDDIR__" "$_project_dir"/vendor/unabashed -R
 }
 
 update() {
@@ -191,6 +192,7 @@ new() {
     exit 1
   fi
 
+  mkdir -p "$_project_dir"/vendor/unabashed
   install "$_project_dir" "$_project"
   update_script "$_project_dir" "$_project"
   new_script "$_project_dir" "$_project"

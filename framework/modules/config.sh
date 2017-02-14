@@ -16,7 +16,7 @@ __internal_load_configs() {
   _pattern="$1"; shift
   _not_pattern=${1:-}
 
-  for _conf in $(find "$__UNABASHEDDIR__/../config/" -type f -name "$_pattern" -not -name "$_not_pattern"); do
+  for _conf in $(find "$__DIR__/config/" -type f -name "$_pattern" -not -name "$_not_pattern"); do
     _conf_name=$(basename "$_conf")
     if [[ "config.yml" != "$_conf_name" ]] && [[ "config.default.yml" != "$_conf_name" ]]; then
       eval $(parse_yaml "$_conf" "__")
@@ -27,8 +27,8 @@ __internal_load_configs() {
 
 main() {
   # load config.default.yml and config.yml first
-  eval $(parse_yaml "$__UNABASHEDDIR__/../config/config.default.yml" "__")
-  eval $(parse_yaml "$__UNABASHEDDIR__/../config/config.yml" "__")
+  eval $(parse_yaml "$__DIR__/config/config.default.yml" "__")
+  eval $(parse_yaml "$__DIR__/config/config.yml" "__")
 
   # Load defaults
   __internal_load_configs "*default.yml"
